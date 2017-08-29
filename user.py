@@ -41,3 +41,18 @@ class User(object):
                 return 5
         else:
             return 6
+
+    def login(self, email, password):
+        """ defining method to Log in user"""
+        if email != '' and password != '':
+            if email in users.keys():
+                result = users[email]
+                pword = result['pass']
+                if pword == password:
+                    return 1
+                else:
+                    return 2
+            else:
+                return 3
+        else:
+            return 4
