@@ -14,30 +14,30 @@ class User(object):
         self.email = email
         self.password = password
 
-        def register(self, email, name, password, cpassword):
-            """defining method to create account"""
-            if name != '' and username and email != '' and password != '':
-                if username not in users.keys():
-                    if email not in users.keys():
-                        if password == cpassword:
-                            regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
-                            result = email
-                            if re.search(regex, result):
-                                users[email] = {
-                                    'name': name,
-                                    'username': username,
-                                    'email': email,
-                                    'pass': password,
-                                }
-                                print(users)
-                                return 1
-                            else:
-                                return 2
+    def register(self, email, name, username, password, cpassword):
+        """defining method to create account"""
+        if name != '' and username and email != '' and password != '':
+            if username not in users.keys():
+                if email not in users.keys():
+                    if password == cpassword:
+                        regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
+                        result = email
+                        if re.search(regex, result):
+                            users[email] = {
+                            'name': name,
+                            'username': username,
+                            'email': email,
+                            'pass': password,
+                            }
+                            print(users)
+                            return 1
                         else:
-                            return 3
+                            return 2
                     else:
-                        return 4
+                        return 3
                 else:
-                    return 5
+                    return 4
             else:
-                return 6
+                return 5
+        else:
+            return 6
