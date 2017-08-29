@@ -58,5 +58,29 @@ class Usertest(unittest.TestCase):
     #     self.newUser.register('muthomi@gmail.com','muthomi', 'muthomi', 'pass','pass')
     #     result = self.newUser.register('muthom@gmail.com','muthomi', 'muthomi', 'pass','pass')
     #     self.assertEqual(5, result, "username has already been taken")
+
+    def test_wrong_login_password(self):
+        """defining method to test if login password is equal to register passsword"""
+        self.newUser.users = {}
+        self.newUser.register( 'muthomi@gmail.com','muthomi', 'muthomi', 'pass','pass')
+        result = self.newUser.login('muthomi@gmail.com', 'pass123')
+        self.assertEqual(2, result,"Wrong login credentials") 
+
+    def test_wrong_login_email(self):
+        """defining method to test if login email is equal to register email"""
+        self.newUser.users = {}
+        self.newUser.register('muthomi@gmail.com','muthomi', 'muthomi', 'pass','pass')
+        result = self.newUser.login('muthomimate@gmail.com', 'pass')
+        self.assertEqual(3, result, "wrong login credentials") 
+
+    def test_login_null_email(self):
+        """defining method to test for null login email"""
+        result = self.newUser.login('', 'pass')
+        self.assertEqual(4, result, "Please fill the email field")   
+
+    def test_login_null_password(self):
+        """defining method to test for null login password"""
+        result = self.newUser.login('muthomi@gmail.com', '')
+        self.assertEqual(4, result, "Please fill the password field") 
     
 		
