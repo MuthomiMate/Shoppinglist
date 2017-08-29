@@ -5,4 +5,7 @@ class User(object):
 		self.password=password
 		self.username=username
 		self.name=name
+
+	
+		
 		

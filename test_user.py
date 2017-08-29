@@ -7,19 +7,23 @@ class UsersTest(unittest.TestCase):
 		self.mimi=User()
 
 
-"""tests if the email is correct"""
+
 	def email_test(self):
+		"""tests if the email is correct"""
 		self.assertEqual(self.mimi.email, 'muthomimate@gmail.com', msg='Invalid email')
 
-"""tests if the pname is correct"""
+
 	def name_test(self):
+		"""tests if the pname is correct"""
 		self.assertEqual(self.mimi.name, 'muthomi', msg='Invalid name')
 
-"""tests if the password is correct"""	
+	
 	def password_test(self):
+		"""tests if the password is correct"""
 		self.assertEqual(self.mimi.password, 'muthomi', msg='Invalid Password')
 
-"""tests if the username is correct"""	
+	
 	def username_test(self):
+		"""tests if the username is correct""" 
 		self.assertEqual(self.mimi.username, 'muthomi', msg='Invalid Username')
 		
