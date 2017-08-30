@@ -56,3 +56,18 @@ class User(object):
                 return 3
         else:
             return 4
+
+
+    def get_user_name(self, email):
+        if email in users.keys():
+            result=users[email]
+            return result['username']
+        else:
+            return False
+
+    def get_user_email(self, email):
+        if email in users.keys():
+            result =users[email]
+            return result['email']
+        else:
+            False

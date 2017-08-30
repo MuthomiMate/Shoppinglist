@@ -51,7 +51,7 @@ def logins():
             email = newuser.get_user_email(emailLogin)
             session['user'] = name
             session['email'] = email
-            return render_template('home.html', data=session)
+            return render_template('dashboard.html', data=session)
         elif loginResult == 2:
             error = "Password mismatch"
             return render_template('login.html', data=error)	
