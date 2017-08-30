@@ -3,8 +3,8 @@
   <head><title>
     Shoppinglist
     </title>
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="style.css"> 
+    <link href="{{ url_for('static', filename='css/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> 
   </head>
 
   <body>
@@ -23,7 +23,7 @@
       <ul class="nav navbar-nav">
         
       </ul>      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Name</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{ session['user'] }}</a></li>
         <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
     </div>
