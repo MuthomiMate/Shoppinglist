@@ -14,13 +14,13 @@
 
     </section>&nbsp;
    
+    
+    <fieldset class="fieldset">
+    <legend align= "center">Shopping List Registration</legend>
     {% if data %}
 <center><div class="error"> {{ data }}</div></center>
 {% endif%}
-    <fieldset class="fieldset">
-    <legend align= "center">Shopping List Registration</legend>
-    
-      <form action={{url_for('reg')}} method="POST">
+      <form action="{{url_for('reg')}}" method="POST">
     <center><input type="text" class= "input" name="name" placeholder="Name" ></center>
     <center><input type="text" class= "input" name="username" placeholder="Username" ></center>
      <center><input type="email" class= "input" name="email" placeholder="Email" ></center>

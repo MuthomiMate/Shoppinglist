@@ -5,7 +5,7 @@ from app import app
 
 newuser = User()
 """Instantiating objects"""
-
+app.secret_key = os.urandom(24)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -13,7 +13,7 @@ def reg():
     """Handles the requests for the register view"""
     if request.method == 'POST':
         name = request.form['name']
-        username = request.form['usernma']
+        username = request.form['username']
         email = request.form['email']
         password = request.form['password']
         cpassword = request.form['cpassword']
@@ -66,3 +66,7 @@ def logins():
             return render_template ('login.html',data=error) 
     else:
         return render_template('login.html')
+
+@app.route('/success/<name>')
+def success(name):
+   return 'welcome %s' % name
