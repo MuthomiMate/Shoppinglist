@@ -16,7 +16,7 @@ class User(object):
 
     def register(self, email, name, username, password, cpassword):
         """defining method to create account"""
-        if name != '' and username and email != '' and password != '':
+        if name != '' and username != '' and email != '' and password != '':
             if username not in users.keys():
                 if email not in users.keys():
                     if password == cpassword:
