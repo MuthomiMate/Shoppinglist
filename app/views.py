@@ -1,9 +1,11 @@
 import os
 from user import User
+from shoppinglists import Shoppinglist
 from flask import  session, render_template, request, redirect, g, url_for
 from app import app
 
 newuser = User()
+Newshoppinglist=Shoppinglist()
 """Instantiating objects"""
 app.secret_key = os.urandom(24)
 
@@ -66,6 +68,60 @@ def logins():
             return render_template ('login.html',data=error) 
     else:
         return render_template('login.html')
+
+@app.before_request
+def before_request():
+    g.user = None
+    if 'user' in session:
+        g.user = session['user']
+
+
+@app.route('/create/', methods=['GET', 'POST'])
+def createshoppinglist():
+    """Handles creation of shoppinglists"""
+    if g.user:
+        if request.method == "POST":
+            sentence = request.form['shoppinglistname']
+            Postlist = sentence.split(' ')
+            shoppinglistname = ''.join(Postlist)
+            owner = session['email']
+            result = Newshoppinglist.create(shoppinglistname, owner)
+            print(shoppinglistname)
+            if result == 2:
+                error = "that shopping list name already exists"
+                return render_template('dashboard.html', data=error)
+            if result == 3:
+
+                error = "Please fill all the fields"
+                return render_template('dashboard.html', data=error)                   
+            if result == 1:
+                result = Newshoppinglist.get_myshopping_lists(owner)  
+                return render_template('dashboard.html', datas=result)        
+            return redirect('/login/')
+        else:
+            return render_template('dashboard.html')
+    else:
+        return render_template('login.html')
+
+@app.route('/delete/<shoppinglistname>')
+def delete(shoppinglistname):
+    """define route to delete a shoppinglist"""
+    if g.user:
+        res = Newshoppinglist.get_shopping_list(shoppinglistname)
+        if res:
+            result = Newshoppinglist.delete(shoppinglistname)
+            if result == True:
+                message = "successfully deleted"
+                return redirect(url_for('createshoppinglist', data=message))
+            else:
+                message = "shopping list was not deleted"
+                return redirect(url_for('createshoppinglist', data=message))                
+        else:
+            message = "not found"
+            return render_template('createshoppinglist', data=message)
+    else:
+        return render_template('dashboard.html')
+    return render_template('login.html')
 
 @app.route('/success/<name>')
 def success(name):

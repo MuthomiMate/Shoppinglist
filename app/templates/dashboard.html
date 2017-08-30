@@ -5,6 +5,9 @@
     </title>
     <link href="{{ url_for('static', filename='css/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
 
   <body>
@@ -52,7 +55,7 @@
               Shopping Lists
            </p>
            </h4>
-           <button class=" btn btn-primary" style="float: right;"><div  class="glyphicon glyphicon-plus"> Add new</button></div>
+           <button class=" btn btn-primary" style="float: right;"><div  class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myModal"> Add new</button></div>
             <div>          
     <table class="table table-bordered" style="margin-top: 20px;  "> 
                  <tr>
@@ -61,18 +64,17 @@
                  <th>Edit</th>
                  <th> Delete </th>
                  </tr>
+                  {% if datas %}
+                  {% for shoppinglistname in datas %}
+
                  <tr>
-                   <td>1. Vegetable shopping</td>
-                   <td><div class="glyphicon glyphicon-eye-open"></div></td>
+                   <td>{{ shoppinglistname}}</td>
+                   <td><div  ><a href="/delete/{{ shoppinglistname}}" > <span class="glyphicon glyphicon-eye-open"> </span></a></div></td>
                    <td><div class="glyphicon glyphicon-pencil"></div></td>
                    <td><div class="glyphicon glyphicon-remove"></div></td>
                  </tr>
-                 <tr>
-                   <td>2. Clothes Shopping</td>
-                   <td><div class="glyphicon glyphicon-eye-open"></div></td>
-                   <td><div class="glyphicon glyphicon-pencil"></div></td>
-                   <td><div class="glyphicon glyphicon-remove"></div></td>
-                 </tr>
+                 {% endfor %}
+                {% endif %}
 
 
                 
@@ -83,6 +85,40 @@
         </div>
       </div>
     </div>
+    <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add new shopping list</h4>
+        </div>
+        <div class="modal-body">
+    {% if data%}
+    <center><div class="error">{{ data }}</div></center>
+    {% endif %}
+   <div class="add-    
+   <div class="add-new" style="padding: 20px">
+     <form action={{url_for('createshoppinglist')}} method="POST">
+     <center><h1>Create a Shopping List</h1></center>
+     <center ><input type="text"  style="width: 500px" name="shoppinglistname" placeholder="Shoppinglist name"></center>
+      
+     
+     <center><button type="submit" style="width: 530px"class="button">Create</button></center>
+     </form>
+   </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
 
   </body>
   </html>
