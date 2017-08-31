@@ -61,6 +61,10 @@ class Shoppinglist(object):
         else:
             return 2
 
+    def get_shopping_lists(self):
+        """defining method to get all shopping lists"""
+        return self.Shoppinglists
+
     def get_shopping_list(self, shoppinglistname):
         """defining method to get one shopping lists"""
         return self.Shoppinglists[shoppinglistname]
@@ -68,18 +72,49 @@ class Shoppinglist(object):
     def edit(self, old, shoppinglistname, owner):
         """defining method to edit shopping list"""
         if  shoppinglistname != '':
-            del self.Shoppinglists[old]
-            self.Shoppinglists[shoppinglistname] = {
-                'shoppinglistname' : shoppinglistname,
-                'owner' : owner,
-                }
-            return 1
+            if old in self.Shoppinglists.keys():
+                del self.Shoppinglists[old]
+                self.Shoppinglists[shoppinglistname] = {
+                    'shoppinglistname' : shoppinglistname,
+                    'owner' : owner,
+                    }
+                return 1
+            else:
+                return 3
         else:
             return 2
 
     def createitem(self, itemname, item):
         """defining method to create an item in a shopping list"""
-        if item != '':
+        if item != '' and itemname != '':
             Shoppingitems.append({'item': item, 'itemname': itemname})
             return 1
         return 2    
+    def getitems(self):
+        """ defining method to delete an item from shopping list"""
+        return Shoppingitems
+
+    def itemedit(self, item, old):
+        """defining method to edit an item in a shopping"""
+        if item != "":
+            for dic in range(len(Shoppingitems)):
+                if Shoppingitems[dic]['item'] == old:
+                    del Shoppingitems[dic]['item']
+                    Shoppingitems[dic]['item'] = item
+                    return 1
+        else:
+            return 2
+
+    def deleteitem(self,item):
+        """ defining method to delete an item from shopping"""
+        for dic in range(len(Shoppingitems)):
+            if Shoppingitems[dic]['item'] == item:
+                del Shoppingitems[dic]
+                result = 1
+            else:
+                result = 2
+
+        return result   
+
+
+

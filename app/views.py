@@ -112,16 +112,15 @@ def delete():
             result = Newshoppinglist.delete(shoppinglistname)
             if result == True:
                 message = "successfully deleted"
-                return redirect(url_for('createshoppinglist', data=message))
+                return render_template('dashboard.html', data=message)
             else:
                 message = "shopping list was not deleted"
-                return redirect(url_for('createshoppinglist', data=message))                
+                return render_template('dashboard.html', data=message)               
         else:
             message = "not found"
-            return render_template('createshoppinglist', data=message)
+            return render_template('dashboard.html', data=message)
     else:
-        return render_template('dashboard.html')
-    return render_template('login.html')
+        return render_template('login.html')
 
 @app.route('/editshoppinglist/<shoppinglistname>')
 def editshoppinglist(shoppinglistname):
@@ -151,6 +150,9 @@ def editshopping():
                 return render_template('dashboard.html', msg=message)
             elif result == 2:
                 return render_template('dashboard.html')  
+            elif result ==3:
+                msg="shopping list not found"
+                return render_template('dashboard.html')
     else:
         return render_template('login.html')
 
@@ -163,20 +165,67 @@ def additems():
             sentence = request.form['item']
             itemlist = sentence.split(' ')
             item = ''.join(itemlist)
-            itemname = request.form['post']
+            itemname = request.form['itemname']
             owner = session['email']
             result = Newshoppinglist.createitem(item, itemname)
             if result == 1:
                 shoppingitems = Newshoppinglist.getitems()
                 print (shoppingitems)
                 print('yes')
-                result = Newshopinglist.get_myshopping_lists(owner)       
+                result = Newshoppinglist.get_myshopping_lists(owner)       
                 return render_template('dashboard.html', datas=result, items=shoppingitems,)           
-            elif result == 3:
+            elif result == 2:
                 shoppingitems = Newshoppinglist.getitems()
                 message = "item already exists"
                 result = Newshoppinglist.get_shopping_lists()       
-                return render_template('dashboard.html',datas=result,items=shoppingitems, data=message)    
+                return render_template('dashboard.html',datase=result,items=shoppingitems, data=message)    
         else:
             return render_template('dashboard.html' )
     return render_template('login.html' )
+
+@app.route('/edititem/', methods=['GET','POST'])
+def edititem():
+    """Handles  requests for editing an item"""
+    if g.user:
+        if request.method == "POST":
+            sentence = request.form['item']
+            itemlist = sentence.split(' ')
+            item = ''.join(itemlist)
+            post = request.form['itemname']
+            old = request.form['old']
+            owner = session['email']
+            result = Newshoppinglist.itemedit(item, old)
+            if result == 1:
+                shoppingitems = Newshoppinglist.getitems()
+                print(shoppingitems)
+                result = Newshoppinglist.get_myshopping_lists(owner)        
+                return render_template('dashboard.html', datas=result, items=shoppingitems)
+            elif result == 2:
+                return render_template('dashboard.html')
+            else:
+                return render_template('dashboard.html')  
+        else:
+            shoppingitems = Newshoppinglist.getitems()
+            for dic in shoppingitems:
+                result = Newshoppinglist.get_shopping_lists()       
+                return render_template('dashboard.html', datas=result, items=shoppingitems)        
+    else:
+        return render_template('login.html')
+
+@app.route('/deleteitem', methods=['GET', 'POST'])
+def deleteitem():
+    """Handles requests for deleting an item"""
+    if g.user:
+        item = request.form['item']
+        itemname = request.form['itemname']
+        owner = session['email']
+        itemowner = session['email']
+        result = Newshoppinglist.deleteitem(item)
+        if result == True:
+            message = "successfully deleted"
+            shoppingitems = Newshoppinglist.getitems()
+            results = Newshoppinglist.get_myshopping_lists(owner)           
+            return render_template('dashboard.html', msg=message, datas=results, items=shoppingitems )
+        else:
+            return render_template('dashboard.html')
+    return render_template('dashboard.html')

@@ -58,6 +58,13 @@ class Shoppingtest(unittest.TestCase):
         output = self.shoppings.edit('muthomi', '', 'muthomi@gmail.com')
         self.assertEqual(2,output,"Please fill the name field")
 
+    def tests_edit_name_not_found(self):
+        """defining method to test for editing a shoppinglist and leaving the name null"""
+        self.shoppings.Shoppinglists = {} 
+        self.shoppings.create('muthomi', 'muthomi@gmail.com')
+        output = self.shoppings.edit('mate', 'mwiti', 'muthomi@gmail.com')
+        self.assertEqual(3,output,"Please fill the name field")
+
     def tests_Add_item(self):
         """defining method to test adding an item in a shoppinglist"""
         self.shoppings.ShoppingItems = []
@@ -70,3 +77,33 @@ class Shoppingtest(unittest.TestCase):
         self.shoppings.ShoppingItems = []
         output = self.shoppings.createitem('mate', '')
         self.assertEqual(2,output,"Cannot add an empty item ") 
+    def tests_delete_null_item(self):
+        """defining method to test deleting an item that doesn't exist in a shoppinglist"""
+        self.shoppings.ShoppingItems = []
+        self.shoppings.createitem('mate', 'mate')
+        output = self.shoppings.deleteitem('fish')
+        self.assertEqual(2, output, "Cannot Delete an item that does not exist") 
+
+    def tests_delete_items(self):
+        """defining method to test deleting an  existing item"""
+        self.shoppings.ShoppingItems = []
+        item = self.shoppings.createitem('mate', 'mate')
+        output = self.shoppings.deleteitem(item)
+        self.assertEqual(2, output, "Item successfully deleted") 
+
+    def tests_edit_item(self):
+        """defining method to test editing an  existing item"""
+        self.shoppings.ShoppingItems = []
+        self.shoppings.createitem('mate', 'mate')
+        output = self.shoppings.itemedit('mate', 'mate')
+        self.assertEqual(1, output, "Item successfully edited")
+
+    def tests_edit_null_item(self):
+        """defining method to test editing an empty item field"""
+        self.shoppings.Shoppingitems = []
+        self.shoppings.createitem('mate', 'mate')
+        output = self.shoppings.itemedit('', 'mate')
+        self.assertEqual(2, output, "The item can not be empty")    
+
+if __name__ == "__main__":
+    unittest.main()        
