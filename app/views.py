@@ -103,8 +103,8 @@ def createshoppinglist():
     else:
         return render_template('login.html')
 
-@app.route('/delete/<shoppinglistname>')
-def delete(shoppinglistname):
+@app.route('/delete/')
+def delete():
     """define route to delete a shoppinglist"""
     if g.user:
         res = Newshoppinglist.get_shopping_list(shoppinglistname)
@@ -123,6 +123,60 @@ def delete(shoppinglistname):
         return render_template('dashboard.html')
     return render_template('login.html')
 
-@app.route('/success/<name>')
-def success(name):
-   return 'welcome %s' % name
+@app.route('/editshoppinglist/<shoppinglistname>')
+def editshoppinglist(shoppinglistname):
+    """defining route to get the post to edit"""
+    if g.user:
+        res = Newshoppinglist.get_shopping_list(shoppinglistname)
+        if res:
+            return render_template('dashboard.html', data=res)   
+        return render_template('dashboard.html')
+    else:
+        return render_template('login.html')
+
+@app.route('/editshopping/', methods=['GET', 'POST'])
+def editshopping():
+    """defining route to edit a shoppinglist"""
+    if g.user:
+        if request.method == "POST":
+            old = request.form['old']
+            sentence = request.form['shoppinglistname']
+            Postlist = sentence.split(' ')
+            shoppinglistname = ''.join(Postlist)
+            owner = session['email']
+            result = Newshoppinglist.edit(old, shoppinglistname, owner)
+            if result == 1:
+                message = "shopping list successfully updated"
+                result = Newshoppinglist.get_myshopping_lists(owner)    
+                return render_template('dashboard.html', msg=message)
+            elif result == 2:
+                return render_template('dashboard.html')  
+    else:
+        return render_template('login.html')
+
+
+@app.route('/createitem/', methods=['GET', 'POST'])
+def additems():
+    """Handles the  requests for creating an item"""
+    if g.user:
+        if request.method == "POST":
+            sentence = request.form['item']
+            itemlist = sentence.split(' ')
+            item = ''.join(itemlist)
+            itemname = request.form['post']
+            owner = session['email']
+            result = Newshoppinglist.createitem(item, itemname)
+            if result == 1:
+                shoppingitems = Newshoppinglist.getitems()
+                print (shoppingitems)
+                print('yes')
+                result = Newshopinglist.get_myshopping_lists(owner)       
+                return render_template('dashboard.html', datas=result, items=shoppingitems,)           
+            elif result == 3:
+                shoppingitems = Newshoppinglist.getitems()
+                message = "item already exists"
+                result = Newshoppinglist.get_shopping_lists()       
+                return render_template('dashboard.html',datas=result,items=shoppingitems, data=message)    
+        else:
+            return render_template('dashboard.html' )
+    return render_template('login.html' )

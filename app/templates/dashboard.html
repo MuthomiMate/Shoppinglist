@@ -55,30 +55,59 @@
               Shopping Lists
            </p>
            </h4>
-           <button class=" btn btn-primary" style="float: right;"><div  class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myModal"> Add new</button></div>
-            <div>          
+
+           <button class=" btn btn-primary" style="float: right;"><div  class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myModal"> Add new shopping list</button></div>
+           {% if datas %}
+           <div>
+           <button class=" btn btn-primary" style="float: right;"><div  class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#mmyModal"> Edit shopping list</button>
+           </div>
+           <div>
+           <button class=" btn btn-primary" style=" float: right;"><div  class="glyphicon glyphicon-remove" data-toggle="modal" data-target="#delModal"> Delete shopping list</button>
+           </div>
+           
+            <div> 
+            
+                  {% for shoppinglistname in datas %}  
+
+                  <h4> <p align=center>{{ shoppinglistname}}
+              
+           </p>
+           </h4>       
     <table class="table table-bordered" style="margin-top: 20px;  "> 
                  <tr>
                  <th>Name</th>
-                 <th> View </th>
-                 <th>Edit</th>
-                 <th> Delete </th>
+                 <th> Add item </th>
+                 <th>Edit item</th>
+                 <th> Delete item </th>
                  </tr>
-                  {% if datas %}
-                  {% for shoppinglistname in datas %}
+                  
 
                  <tr>
                    <td>{{ shoppinglistname}}</td>
-                   <td><div  ><a href="/delete/{{ shoppinglistname}}" > <span class="glyphicon glyphicon-eye-open"> </span></a></div></td>
-                   <td><div class="glyphicon glyphicon-pencil"></div></td>
-                   <td><div class="glyphicon glyphicon-remove"></div></td>
+                   <td><button class=" btn btn-primary"><div  class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myAdd"></button></div></td>
+                   <td><div  class="glyphicon glyphicon-pencil" ></div></td>
+                   <td><div class="glyphicon glyphicon-remove"> 
+                   </div></td>
+                 </tr>
+                 {% if items %}
+        {% for item in datas %}
+
+
+                 <tr>
+                   <td>{{ itemname}}</td>
+                   
+                   <td><button class=" btn btn-primary"><div  class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#mmyModal"></button></div></td>
+                   <td><button class=" btn btn-primary"><div  class="glyphicon glyphicon-remove" data-toggle="modal" data-target="#mmyModal"></button></div></td>
                  </tr>
                  {% endfor %}
                 {% endif %}
+                 
 
 
                 
      </table>
+     {% endfor %}
+                {% endif %}
   </div>
             </div>
           </div>
@@ -99,8 +128,6 @@
     {% if data%}
     <center><div class="error">{{ data }}</div></center>
     {% endif %}
-   <div class="add-    
-   <div class="add-new" style="padding: 20px">
      <form action={{url_for('createshoppinglist')}} method="POST">
      <center><h1>Create a Shopping List</h1></center>
      <center ><input type="text"  style="width: 500px" name="shoppinglistname" placeholder="Shoppinglist name"></center>
@@ -108,8 +135,6 @@
      
      <center><button type="submit" style="width: 530px"class="button">Create</button></center>
      </form>
-   </div>
-        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
@@ -117,8 +142,95 @@
       
     </div>
   </div>
-  
-</div>
+  </div>
 
-  </body>
-  </html>
+<div class="modal fade" id="mmyModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update shopping list</h4>
+        </div>
+        <div class="modal-body">
+    {% if data%}
+    <center><div class="error">{{ data }}</div></center>
+    {% endif %}
+     
+     <form action={{url_for('editshopping')}} method="POST">
+     <center><h1>Edit a Shoppinglist</h1></center>
+     <center ><input type="text"  style="width: 500px" name="old" placeholder="Old name">
+     <input type="text"  style="width: 500px" name="shoppinglistname" placeholder="New name" >
+     
+     </center>
+      
+     <center><button type="submit" style="width: 530px"class="button">Update Shoppinglist</button></center>
+     </form>
+   
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  </div>
+
+  <div class="modal fade" id="delModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update shopping list</h4>
+        </div>
+        <div class="modal-body">
+    {% if data%}
+    <center><div class="error">{{ data }}</div></center>
+    {% endif %}
+     
+     <form action={{url_for('delete')}} method="POST">
+     <center><h1>Delete a Shoppinglist</h1></center>
+     <center >
+     <input type="text"  style="width: 500px" name="shoppinglistname" placeholder="Shopping list name" >
+     
+     </center>
+      
+     <center><button type="submit" style="width: 530px"class="button">Delete Shoppinglist</button></center>
+     </form>
+   
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  </div>
+
+  <div class="modal fade" id="myAdd">
+              <form method="POST" action={{url_for('additems')}}>
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="myAdd">Create an item</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body form-group">
+                      <input type="text" name="item" class="form-control">
+                      <input type="hidden" name="post" value="{{ shoppinglistname}}" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Save</button> 
+                      </div>
+                    </div>
+                    </div>
+                    </form>
+                  </div>
+
+

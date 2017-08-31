@@ -42,4 +42,31 @@ class Shoppingtest(unittest.TestCase):
         self.shoppings.Shoppinglists = {}
         self.shoppings.create('muthomi', 'muthomi@gmail.com')
         output = self.shoppings.delete('nnnnnn')
-        self.assertEqual(2, output, "You can not delete a shopping list that does not exist")    
+        self.assertEqual(2, output, "You can not delete a shopping list that does not exist")  
+
+    def tests_edit_shoppinglis(self):
+        """defining method to test for editing a shoppinglist"""
+        self.shoppings.Shoppinglists = {} 
+        self.shoppings.create('muthomi', 'muthomi@gmail.com')
+        output = self.shoppings.edit('muthomi', 'mate', 'muthomi@gmail.com')
+        self.assertEqual(1, output, "shopping list successfully edited")
+
+    def tests_edit_null_title(self):
+        """defining method to test for editing a shoppinglist and leaving the name null"""
+        self.shoppings.Shoppinglists = {} 
+        self.shoppings.create('muthomi', 'muthomi@gmail.com')
+        output = self.shoppings.edit('muthomi', '', 'muthomi@gmail.com')
+        self.assertEqual(2,output,"Please fill the name field")
+
+    def tests_Add_item(self):
+        """defining method to test adding an item in a shoppinglist"""
+        self.shoppings.ShoppingItems = []
+        current_count = len(self.shoppings.ShoppingItems)
+        output = self.shoppings.createitem('Fashion', 'By20')
+        self.assertEqual(current_count+1, output, "Item successfully added")
+
+    def tests_addEmpty_item(self):
+        """defining method to test adding an empty item in a shoppinglist"""
+        self.shoppings.ShoppingItems = []
+        output = self.shoppings.createitem('mate', '')
+        self.assertEqual(2,output,"Cannot add an empty item ") 

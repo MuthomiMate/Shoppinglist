@@ -4,10 +4,10 @@ Shoppingitems= []
 class Shoppinglist(object):
     Shoppinglists = {}
     """an empty list to store my shoppinglists"""
-    def __init__(self, shoppinglistname=None, owner=None):
+    def __init__(self, shoppinglistname=None, owner=None, itemname=None):
         """initializing class instance variables"""
         self.shoppinglistname = shoppinglistname
-        
+        self.itemname=itemname
         self.owner = owner
 
     def create(self, shoppinglistname, owner):
@@ -64,3 +64,22 @@ class Shoppinglist(object):
     def get_shopping_list(self, shoppinglistname):
         """defining method to get one shopping lists"""
         return self.Shoppinglists[shoppinglistname]
+
+    def edit(self, old, shoppinglistname, owner):
+        """defining method to edit shopping list"""
+        if  shoppinglistname != '':
+            del self.Shoppinglists[old]
+            self.Shoppinglists[shoppinglistname] = {
+                'shoppinglistname' : shoppinglistname,
+                'owner' : owner,
+                }
+            return 1
+        else:
+            return 2
+
+    def createitem(self, itemname, item):
+        """defining method to create an item in a shopping list"""
+        if item != '':
+            Shoppingitems.append({'item': item, 'itemname': itemname})
+            return 1
+        return 2    
