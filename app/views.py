@@ -89,14 +89,19 @@ def createshoppinglist():
             print(shoppinglistname)
             if result == 2:
                 error = "that shopping list name already exists"
-                return render_template('dashboard.html', data=error)
+                result = Newshoppinglist.get_myshopping_lists(owner)
+                shoppingitems = Newshoppinglist.getitems() 
+                return render_template('dashboard.html', data=error,datas=result, items=shoppingitems)
             if result == 3:
-
+                shoppingitems = Newshoppinglist.getitems()
+ 
                 error = "Please fill all the fields"
-                return render_template('dashboard.html', data=error)                   
+                result = Newshoppinglist.get_myshopping_lists(owner) 
+                return render_template('dashboard.html', data=error,datas=result, items=shoppingitems)                   
             if result == 1:
-                result = Newshoppinglist.get_myshopping_lists(owner)  
-                return render_template('dashboard.html', datas=result)        
+                result = Newshoppinglist.get_myshopping_lists(owner)
+                shoppingitems = Newshoppinglist.getitems()  
+                return render_template('dashboard.html', datas=result, items=shoppingitems)        
             return redirect('/login/')
         else:
             return render_template('dashboard.html')
@@ -162,23 +167,39 @@ def additems():
     """Handles the  requests for creating an item"""
     if g.user:
         if request.method == "POST":
-            sentence = request.form['item']
+            sentence = request.form['shoppinglistname']
             itemlist = sentence.split(' ')
-            item = ''.join(itemlist)
+            shoppinglistname= ''.join(itemlist)
             itemname = request.form['itemname']
             owner = session['email']
-            result = Newshoppinglist.createitem(item, itemname)
+            result = Newshoppinglist.createitem(shoppinglistname, itemname, owner)
             if result == 1:
                 shoppingitems = Newshoppinglist.getitems()
-                print (shoppingitems)
-                print('yes')
+                # print (shoppingitems)
+                # print('yes')
                 result = Newshoppinglist.get_myshopping_lists(owner)       
-                return render_template('dashboard.html', datas=result, items=shoppingitems,)           
+                return render_template('dashboard.html', datas=result, items=shoppingitems)           
             elif result == 2:
                 shoppingitems = Newshoppinglist.getitems()
                 message = "item already exists"
                 result = Newshoppinglist.get_shopping_lists()       
-                return render_template('dashboard.html',datase=result,items=shoppingitems, data=message)    
+                return render_template('dashboard.html',datase=result,items=shoppingitems, data=message)
+            elif result == 3:
+                shoppingitems = Newshoppinglist.getitems()
+                message = "ishopping list does not exist"
+                result = Newshoppinglist.get_shopping_lists()       
+                return render_template('dashboard.html',datase=result,items=shoppingitems, data=message)
+            elif result == 4:
+                shoppingitems = Newshoppinglist.getitems()
+                message = "shopping list does not exist"
+                result = Newshoppinglist.get_shopping_lists()       
+                return render_template('dashboard.html',datase=result,items=shoppingitems, data=message)
+            elif result == 5:
+                shoppingitems = Newshoppinglist.getitems()
+                message = "Fill all the deatils"
+                result = Newshoppinglist.get_shopping_lists()       
+                return render_template('dashboard.html',datase=result,items=shoppingitems, data=message)
+
         else:
             return render_template('dashboard.html' )
     return render_template('login.html' )
@@ -216,11 +237,11 @@ def edititem():
 def deleteitem():
     """Handles requests for deleting an item"""
     if g.user:
-        item = request.form['item']
+        item = request.form['shoppinglistname']
         itemname = request.form['itemname']
         owner = session['email']
         itemowner = session['email']
-        result = Newshoppinglist.deleteitem(item)
+        result = Newshoppinglist.deleteitem(itemname)
         if result == True:
             message = "successfully deleted"
             shoppingitems = Newshoppinglist.getitems()
@@ -229,3 +250,9 @@ def deleteitem():
         else:
             return render_template('dashboard.html')
     return render_template('dashboard.html')
+
+@app.route('/logout')
+def logout():
+    """Handles requests to logout a user"""
+    session.pop('user', None)
+    return redirect(url_for('logins'))

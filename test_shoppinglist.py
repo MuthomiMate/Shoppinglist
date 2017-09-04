@@ -69,39 +69,39 @@ class Shoppingtest(unittest.TestCase):
         """defining method to test adding an item in a shoppinglist"""
         self.shoppings.ShoppingItems = []
         current_count = len(self.shoppings.ShoppingItems)
-        output = self.shoppings.createitem('Fashion', 'By20')
+        output = self.shoppings.createitem('muthomi', 'muthomi','muthomi@gmail.com')
         self.assertEqual(current_count+1, output, "Item successfully added")
 
     def tests_addEmpty_item(self):
         """defining method to test adding an empty item in a shoppinglist"""
         self.shoppings.ShoppingItems = []
-        output = self.shoppings.createitem('mate', '')
-        self.assertEqual(2,output,"Cannot add an empty item ") 
+        output = self.shoppings.createitem('mate', '','muthomi@gmail.com')
+        self.assertEqual(5,output,"Cannot add an empty item ") 
     def tests_delete_null_item(self):
         """defining method to test deleting an item that doesn't exist in a shoppinglist"""
         self.shoppings.ShoppingItems = []
-        self.shoppings.createitem('mate', 'mate')
+        self.shoppings.createitem('mate', 'mate','muthomi@gmail.com')
         output = self.shoppings.deleteitem('fish')
         self.assertEqual(2, output, "Cannot Delete an item that does not exist") 
 
     def tests_delete_items(self):
         """defining method to test deleting an  existing item"""
         self.shoppings.ShoppingItems = []
-        item = self.shoppings.createitem('mate', 'mate')
+        item = self.shoppings.createitem('mate', 'mate','muthomi@gmail.com')
         output = self.shoppings.deleteitem(item)
         self.assertEqual(2, output, "Item successfully deleted") 
 
     def tests_edit_item(self):
         """defining method to test editing an  existing item"""
         self.shoppings.ShoppingItems = []
-        self.shoppings.createitem('mate', 'mate')
+        self.shoppings.createitem('mate', 'mate','muthomi@gmail.com')
         output = self.shoppings.itemedit('mate', 'mate')
         self.assertEqual(1, output, "Item successfully edited")
 
     def tests_edit_null_item(self):
         """defining method to test editing an empty item field"""
         self.shoppings.Shoppingitems = []
-        self.shoppings.createitem('mate', 'mate')
+        self.shoppings.createitem('mate', 'mate', 'muthomi@gmail.com')
         output = self.shoppings.itemedit('', 'mate')
         self.assertEqual(2, output, "The item can not be empty")    
 

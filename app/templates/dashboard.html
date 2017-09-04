@@ -27,7 +27,7 @@
         
       </ul>      <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{ session['user'] }}</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
     </div>
   </div>
@@ -70,7 +70,7 @@
                   {% for shoppinglistname in datas %}  
 
                   <h4> <p align=center>{{ shoppinglistname}}
-              
+               
            </p>
            </h4>       
     <table class="table table-bordered" style="margin-top: 20px;  "> 
@@ -90,10 +90,10 @@
                    <td><div class="glyphicon glyphicon-remove"> 
                    </div></td>
                  </tr>
-                 {% if items %}
-        {% for itemname in items %}
+                 
         {% if items %}
                   {% for dic in items %}
+                  {% if shoppinglistname==dic["shoppinglistname"] %}
 
                  <tr>
                    <td>{{dic["itemname"]}}</td>
@@ -101,16 +101,15 @@
 
                    <td><button class=" btn btn-primary"><div  class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#myEdit{{dic["item"]}}"></button></div></td>
                    <td><form style="display: inline;" action={{url_for('deleteitem')}} method="POST">
-                              <input type="hidden"  style="width: 500px" name="itemname" value="{{dic["post"] }}">
-                              <input type="hidden"  style="width: 500px" name="item" value="{{dic["item"] }}">
+                              <input type="hidden"  style="width: 500px" name="itemname" value="{{dic["itemname"]}}">
+                              <input type="hidden"  style="width: 500px" name="shoppinglistname" value="{{dic["shoppinglistname"] }}">
                               <button type="submit"  class="btn btn-primary"> <span class="glyphicon glyphicon-remove"></span ></button>
                             </form></td>
                  </tr>
-                 
+              {% endif %}   
             {% endfor %}
                 {% endif %}
-                 {% endfor %}
-                {% endif %}
+               
                  
 
 
@@ -141,6 +140,15 @@
      <form action={{url_for('createshoppinglist')}} method="POST">
      <center><h1>Create a Shopping List</h1></center>
      <center ><input type="text"  style="width: 500px" name="shoppinglistname" placeholder="Shoppinglist name"></center>
+     <script type="text/javascript">
+       var formErrors = {% if form_errors %}true{% else %}false{% endif %};
+
+$(document).ready(function() {
+    if (formErrors) {
+        $('.myModal').modal('show');
+    }
+});
+     </script>
       
      
      <center><button type="submit" style="width: 530px"class="button">Create</button></center>
@@ -219,7 +227,7 @@
     </div>
   </div>
   </div>
-
+  
   <div class="modal fade" id="myAdd">
               <form method="POST" action={{url_for('additems')}}>
                 <div class="modal-dialog">
@@ -231,8 +239,10 @@
                       </button>
                     </div>
                     <div class="modal-body form-group">
-                      <input type="text" name="item" class="form-control" placeholder="item name">
-                      <input type="text" name="itemname"  class="form-control" placeholder="shopping list name">
+                    <input type="text" name="shoppinglistname" class="form-control" placeholder="item name">
+                    <input type="text" name="itemname"  class="form-control" placeholder="shopping list name">
+                      
+                      
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -242,6 +252,8 @@
                     </div>
                     </form>
                   </div>
+                
+               
 {% if items %}
                   {% for dic in items %}
              <div class="modal fade" id="myEdit{{dic["item"]}}">

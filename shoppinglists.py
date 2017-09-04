@@ -84,31 +84,39 @@ class Shoppinglist(object):
         else:
             return 2
 
-    def createitem(self, itemname, item):
+    def createitem(self, itemname, shoppinglistname,owner):
         """defining method to create an item in a shopping list"""
-        if item != '' and itemname != '':
-            Shoppingitems.append({'item': item, 'itemname': itemname})
-            return 1
-        return 2    
+        if shoppinglistname != '' and itemname != '':
+            my_shoppings = self.get_myshopping_lists(owner)
+            if my_shoppings != {}:
+                #check's if user already has a shopping list
+                if shoppinglistname in self.Shoppinglists.keys():
+                    if itemname not in Shoppingitems:
+                        Shoppingitems.append({'shoppinglistname': shoppinglistname, 'itemname': itemname})
+                        return 1
+                    return 2
+                return 3
+            return 4
+        return 5    
     def getitems(self):
         """ defining method to delete an item from shopping list"""
         return Shoppingitems
 
-    def itemedit(self, item, old):
+    def itemedit(self, itemname, old):
         """defining method to edit an item in a shopping"""
-        if item != "":
+        if itemname != "":
             for dic in range(len(Shoppingitems)):
-                if Shoppingitems[dic]['item'] == old:
-                    del Shoppingitems[dic]['item']
-                    Shoppingitems[dic]['item'] = item
+                if Shoppingitems[dic]['itemname'] == old:
+                    del Shoppingitems[dic]['itemname']
+                    Shoppingitems[dic]['itemname'] = itemname
                     return 1
         else:
             return 2
 
-    def deleteitem(self,item):
+    def deleteitem(self,itemname):
         """ defining method to delete an item from shopping"""
         for dic in range(len(Shoppingitems)):
-            if Shoppingitems[dic]['item'] == item:
+            if Shoppingitems[dic]['itemname'] == itemname:
                 del Shoppingitems[dic]
                 result = 1
             else:
@@ -118,3 +126,4 @@ class Shoppinglist(object):
 
 
 
+ 
