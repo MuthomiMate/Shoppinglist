@@ -53,7 +53,10 @@ def logins():
             email = newuser.get_user_email(emailLogin)
             session['user'] = name
             session['email'] = email
-            return render_template('dashboard.html', data=session)
+            owner=session['email']
+            result = Newshoppinglist.get_myshopping_lists(owner)
+            shoppingitems = Newshoppinglist.getitems()
+            return render_template('dashboard.html', datas=result, items=shoppingitems)
         elif loginResult == 2:
             error = "Password mismatch"
             return render_template('login.html', data=error)	
@@ -108,22 +111,35 @@ def createshoppinglist():
     else:
         return render_template('login.html')
 
-@app.route('/delete/')
+@app.route('/delete/', methods=['GET', 'POST'])
 def delete():
     """define route to delete a shoppinglist"""
     if g.user:
-        res = Newshoppinglist.get_shopping_list(shoppinglistname)
-        if res:
-            result = Newshoppinglist.delete(shoppinglistname)
-            if result == True:
-                message = "successfully deleted"
-                return render_template('dashboard.html', data=message)
+        if request.method == "POST":
+            sentence = request.form['shoppinglistname']
+            Postlist = sentence.split(' ')
+            owner=owner = session['email']
+            shoppinglistname = ''.join(Postlist)
+            res = Newshoppinglist.get_shopping_list(shoppinglistname)
+            if res:
+                result = Newshoppinglist.delete(shoppinglistname)
+                if result == True:
+                    message = "successfully deleted"
+                    result = Newshoppinglist.get_myshopping_lists(owner)
+                    shoppingitems = Newshoppinglist.getitems() 
+                    return render_template('dashboard.html', data=message, datas=result, items=shoppingitems)
+                else:
+                    message = "shopping list was not deleted"
+                    result = Newshoppinglist.get_myshopping_lists(owner)
+                    shoppingitems = Newshoppinglist.getitems() 
+                    return render_template('dashboard.html', data=message, datas=result, items=shoppingitems)
             else:
-                message = "shopping list was not deleted"
-                return render_template('dashboard.html', data=message)               
+                message = "not found"
+                result = Newshoppinglist.get_myshopping_lists(owner)
+                shoppingitems = Newshoppinglist.getitems() 
+                return render_template('dashboard.html', data=message, datas=result, items=shoppingitems)
         else:
-            message = "not found"
-            return render_template('dashboard.html', data=message)
+            return render_template('dashboard.html')
     else:
         return render_template('login.html')
 
@@ -151,8 +167,10 @@ def editshopping():
             result = Newshoppinglist.edit(old, shoppinglistname, owner)
             if result == 1:
                 message = "shopping list successfully updated"
-                result = Newshoppinglist.get_myshopping_lists(owner)    
-                return render_template('dashboard.html', msg=message)
+                result = Newshoppinglist.get_myshopping_lists(owner) 
+
+                shoppingitems = Newshoppinglist.getitems()    
+                return render_template('dashboard.html', msg=message, datas=result, items=shoppingitems)
             elif result == 2:
                 return render_template('dashboard.html')  
             elif result ==3:
@@ -179,27 +197,31 @@ def additems():
                 # print('yes')
                 result = Newshoppinglist.get_myshopping_lists(owner)       
                 return render_template('dashboard.html', datas=result, items=shoppingitems)           
-            elif result == 2:
+            elif result == 3:
                 shoppingitems = Newshoppinglist.getitems()
                 message = "item already exists"
                 result = Newshoppinglist.get_shopping_lists()       
-                return render_template('dashboard.html',datase=result,items=shoppingitems, data=message)
-            elif result == 3:
-                shoppingitems = Newshoppinglist.getitems()
-                message = "ishopping list does not exist"
-                result = Newshoppinglist.get_shopping_lists()       
-                return render_template('dashboard.html',datase=result,items=shoppingitems, data=message)
-            elif result == 4:
-                shoppingitems = Newshoppinglist.getitems()
-                message = "shopping list does not exist"
-                result = Newshoppinglist.get_shopping_lists()       
-                return render_template('dashboard.html',datase=result,items=shoppingitems, data=message)
-            elif result == 5:
-                shoppingitems = Newshoppinglist.getitems()
-                message = "Fill all the deatils"
-                result = Newshoppinglist.get_shopping_lists()       
-                return render_template('dashboard.html',datase=result,items=shoppingitems, data=message)
-
+                return render_template('dashboard.html',datas=result,items=shoppingitems, data=message)
+            # elif result == 3:
+            #     shoppingitems = Newshoppinglist.getitems()
+            #     message = "shopping list does not exist"
+            #     result = Newshoppinglist.get_shopping_lists()       
+            #     return render_template('dashboard.html',datas=result,items=shoppingitems, data=message)
+            # elif result == 6:
+            #     shoppingitems = Newshoppinglist.getitems()
+            #     message = "item not found in dictionary"
+            #     result = Newshoppinglist.get_shopping_lists()       
+            #     return render_template('dashboard.html',datas=result,items=shoppingitems, data=message)
+            # elif result == 4:
+            #     shoppingitems = Newshoppinglist.getitems()
+            #     message = "shopping list does not exist"
+            #     result = Newshoppinglist.get_shopping_lists()       
+            #     return render_template('dashboard.html',datas=result,items=shoppingitems, data=message)
+            # elif result == 5:
+            #     shoppingitems = Newshoppinglist.getitems()
+            #     message = "Fill all the deatils"
+            #     result = Newshoppinglist.get_shopping_lists()       
+            #     return render_template('dashboard.html',datase=result,items=shoppingitems, data=message)
         else:
             return render_template('dashboard.html' )
     return render_template('login.html' )
@@ -248,7 +270,9 @@ def deleteitem():
             results = Newshoppinglist.get_myshopping_lists(owner)           
             return render_template('dashboard.html', msg=message, datas=results, items=shoppingitems )
         else:
-            return render_template('dashboard.html')
+            shoppingitems = Newshoppinglist.getitems()
+            results = Newshoppinglist.get_myshopping_lists(owner)  
+            return render_template('dashboard.html', msg=message, datas=results, items=shoppingitems)
     return render_template('dashboard.html')
 
 @app.route('/logout')

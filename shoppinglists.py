@@ -85,19 +85,25 @@ class Shoppinglist(object):
             return 2
 
     def createitem(self, itemname, shoppinglistname,owner):
+        if itemname != '':
+            Shoppingitems.append({'shoppinglistname': shoppinglistname, 'itemname': itemname})
+            return 1
+        return 2
         """defining method to create an item in a shopping list"""
-        if shoppinglistname != '' and itemname != '':
-            my_shoppings = self.get_myshopping_lists(owner)
-            if my_shoppings != {}:
-                #check's if user already has a shopping list
-                if shoppinglistname in self.Shoppinglists.keys():
-                    if itemname not in Shoppingitems:
-                        Shoppingitems.append({'shoppinglistname': shoppinglistname, 'itemname': itemname})
-                        return 1
-                    return 2
-                return 3
-            return 4
-        return 5    
+        # if shoppinglistname != '' and itemname != '':
+        #     my_shoppings = self.get_myshopping_lists(owner)
+        #     if my_shoppings != {}:
+        #         #check's if user already has a shopping list
+        #         if shoppinglistname in self.Shoppinglists.keys():
+        #             for dic in range(len(Shoppingitems)):
+        #                 if Shoppingitems[dic]['itemname'] == itemname and Shoppingitems[dic]['shoppinglistname']:
+        #                     Shoppingitems.append({'shoppinglistname': shoppinglistname, 'itemname': itemname})
+        #                     return 1
+        #                 return 2
+        #             return Shoppingitems.append({'shoppinglistname': shoppinglistname, 'itemname': itemname})
+        #         return 3
+        #     return 4
+        # return 5    
     def getitems(self):
         """ defining method to delete an item from shopping list"""
         return Shoppingitems
