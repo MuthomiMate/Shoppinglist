@@ -1,6 +1,6 @@
 import re
 
-users = {};
+users = {}
 
 
 class User(object):
@@ -13,6 +13,7 @@ class User(object):
         self.name = name
         self.email = email
         self.password = password
+        self.username = username
 
     def register(self, email, name, username, password, cpassword):
         """defining method to create account"""
@@ -24,23 +25,18 @@ class User(object):
                         result = email
                         if re.search(regex, result):
                             users[email] = {
-                            'name': name,
-                            'username': username,
-                            'email': email,
-                            'pass': password,
+                                'name': name,
+                                'username': username,
+                                'email': email,
+                                'pass': password,
                             }
                             print(users)
                             return 1
-                        else:
-                            return 2
-                    else:
-                        return 3
-                else:
-                    return 4
-            else:
-                return 5
-        else:
-            return 6
+                        return 2
+                    return 3
+                return 4
+            return 5
+        return 6
 
     def login(self, email, password):
         """ defining method to Log in user"""
@@ -50,24 +46,18 @@ class User(object):
                 pword = result['pass']
                 if pword == password:
                     return 1
-                else:
-                    return 2
-            else:
-                return 3
-        else:
-            return 4
-
+                return 2
+            return 3
+        return 4
 
     def get_user_name(self, email):
         if email in users.keys():
-            result=users[email]
+            result = users[email]
             return result['username']
-        else:
-            return False
+        return False
 
     def get_user_email(self, email):
         if email in users.keys():
-            result =users[email]
+            result = users[email]
             return result['email']
-        else:
-            False
+        return False
