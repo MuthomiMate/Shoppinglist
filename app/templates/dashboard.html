@@ -233,7 +233,15 @@ $(document).ready(function() {
      
      <form action={{url_for('editshopping')}} method="POST">
      <center><h1>Edit a Shoppinglist</h1></center>
-     <center ><input type="text"  style="width: 500px" name="old" placeholder="Old name">
+     <center >
+     {% if datas %}
+     
+     <select class="form-group" name=old style="width: 500px; height: 30px;">
+     {% for shoppinglistname in datas %}  
+  <option>{{shoppinglistname}}</option>
+  {%endfor%}
+  </select>
+     {%endif%}
      <input type="text"  style="width: 500px" name="shoppinglistname" placeholder="New name" >
      
      </center>

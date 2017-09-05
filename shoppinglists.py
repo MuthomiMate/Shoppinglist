@@ -97,7 +97,7 @@ class Shoppinglist(object):
         #         if shoppinglistname in self.Shoppinglists.keys():
         #             for dic in range(len(Shoppingitems)):
 
-        #                 if Shoppingitems[dic]['itemname'] != itemname :
+        #                 if Shoppingitems[dic]['itemname'] = itemname :
         #                     Shoppingitems.append({'shoppinglistname': shoppinglistname, 'itemname': itemname})
         #                     return 1
         #                 return 2

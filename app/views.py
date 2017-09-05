@@ -197,7 +197,7 @@ def additems():
                 # print('yes')
                 result = Newshoppinglist.get_myshopping_lists(owner)       
                 return render_template('dashboard.html', datas=result, items=shoppingitems)           
-            elif result == 3:
+            elif result == 2:
                 shoppingitems = Newshoppinglist.getitems()
                 message = "item already exists"
                 result = Newshoppinglist.get_shopping_lists()       
