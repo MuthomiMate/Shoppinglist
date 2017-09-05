@@ -234,7 +234,6 @@ def edititem():
             sentence = request.form['item']
             itemlist = sentence.split(' ')
             item = ''.join(itemlist)
-            post = request.form['itemname']
             old = request.form['old']
             owner = session['email']
             result = Newshoppinglist.itemedit(item, old)
@@ -259,7 +258,7 @@ def edititem():
 def deleteitem():
     """Handles requests for deleting an item"""
     if g.user:
-        item = request.form['shoppinglistname']
+        # item = request.form['shoppinglistname']
         itemname = request.form['itemname']
         owner = session['email']
         itemowner = session['email']
@@ -268,11 +267,11 @@ def deleteitem():
             message = "successfully deleted"
             shoppingitems = Newshoppinglist.getitems()
             results = Newshoppinglist.get_myshopping_lists(owner)           
-            return render_template('dashboard.html', msg=message, datas=results, items=shoppingitems )
+            return render_template('dashboard.html', data=message, datas=results, items=shoppingitems )
         else:
             shoppingitems = Newshoppinglist.getitems()
             results = Newshoppinglist.get_myshopping_lists(owner)  
-            return render_template('dashboard.html', msg=message, datas=results, items=shoppingitems)
+            return render_template('dashboard.html', data=message, datas=results, items=shoppingitems)
     return render_template('dashboard.html')
 
 @app.route('/logout')
