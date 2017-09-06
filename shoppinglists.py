@@ -1,5 +1,5 @@
 Shoppingitems = []
-"""an empty list to store my items"""
+# an empty list to store my item
 
 
 class Shoppinglist(object):
@@ -63,8 +63,7 @@ class Shoppinglist(object):
             # checks if the shoppinglistname being deleted exists
             del self.Shoppinglists[shoppinglistname]
             return 1
-        else:
-            return 2
+        return 2
 
     def get_shopping_lists(self):
         """defining method to get all shopping lists"""
@@ -84,38 +83,24 @@ class Shoppinglist(object):
                     'owner': owner,
                 }
                 return 1
-            else:
-                return 3
-        else:
-            return 2
+            return 3
+        return 2
 
-    def createitem(self, itemname, shoppinglistname, owner):
+    @classmethod
+    def createitem(cls, itemname, shoppinglistname, owner):
+        """defining method to create an item in a shopping list"""
         if itemname != '':
             Shoppingitems.append(
                 {'shoppinglistname': shoppinglistname, 'itemname': itemname})
             return 1
-        return 2
-        """defining method to create an item in a shopping list"""
-        # if shoppinglistname != '' and itemname != '':
-        #     my_shoppings = self.get_myshopping_lists(owner)
-        #     if my_shoppings != {}:
-        #         #check's if user already has a shopping list
-        #         if shoppinglistname in self.Shoppinglists.keys():
-        #             for dic in range(len(Shoppingitems)):
+        return
 
-        #                 if Shoppingitems[dic]['itemname'] = itemname :
-        #                     Shoppingitems.append({'shoppinglistname': shoppinglistname, 'itemname': itemname})
-        #                     return 1
-        #                 return 2
-        #             return Shoppingitems.append({'shoppinglistname': shoppinglistname, 'itemname': itemname})
-        #         return 3
-        #     return 4
-        # return 5
     def getitems(self):
         """ defining method to delete an item from shopping list"""
+        print(Shoppingitems)
         return Shoppingitems
-
-    def itemedit(self, itemname, old):
+    @classmethod
+    def itemedit(cls, itemname, old):
         """defining method to edit an item in a shopping"""
         if itemname != "":
             for dic in range(len(Shoppingitems)):
@@ -125,29 +110,26 @@ class Shoppinglist(object):
                     return 1
         else:
             return 2
-
-    def deleteitem(self, itemname):
+    @classmethod
+    def deleteitem(cls, itemname):
         """ defining method to delete an item from shopping"""
-        for dic in range(len(Shoppingitems)):
+        for dic in range(0, len(Shoppingitems)):
             if Shoppingitems[dic]['itemname'] == itemname:
                 del Shoppingitems[dic]
-                result = 1
-            else:
-                result = 2
+                return 1
+        return 2
 
-        return result
+    def share_Shoppinglist(self, shoppinglistname):
 
-    def share_Shoppinglist(self,shoppinglistname):
         if shoppinglistname != '':
             for shoppinglistname in self.Shoppinglists.keys():
-                self.sharedshoppinglists = {'sharedshoppinglistname':shoppinglistname}
-                print (self.sharedshoppinglists)
+                self.sharedshoppinglists = {
+                    'sharedshoppinglistname': shoppinglistname}
+                print(self.sharedshoppinglists)
                 return self.sharedshoppinglists
 
             return 2
         return 3
+
     def get_sharedShoppinglists(self):
         return self.sharedshoppinglists
-        
-
-      
