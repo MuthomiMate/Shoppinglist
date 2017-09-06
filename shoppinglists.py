@@ -5,7 +5,7 @@ Shoppingitems = []
 class Shoppinglist(object):
     Shoppinglists = {}
     sharedshoppinglists = {}
-    """an empty list to store my shoppinglists"""
+    #an empty list to store my shoppinglist
 
     def __init__(self, shoppinglistname=None, owner=None, itemname=None):
         """initializing class instance variables"""
@@ -93,9 +93,9 @@ class Shoppinglist(object):
             Shoppingitems.append(
                 {'shoppinglistname': shoppinglistname, 'itemname': itemname})
             return 1
-        return
-
-    def getitems(self):
+        return 2
+    @classmethod
+    def getitems(cls):
         """ defining method to delete an item from shopping list"""
         print(Shoppingitems)
         return Shoppingitems
