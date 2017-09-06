@@ -60,6 +60,9 @@
     {% endif %}
 <ul style="float: right;">
            <button class=" btn btn-primary" style="float: right;"><div  class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myModal"> Add new shopping list</button></div>
+
+
+
            {% if datas %}
            <div>
            <button class=" btn btn-primary" style="float: right;"><div  class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#mmyModal"> Edit shopping list</button>
@@ -113,8 +116,10 @@
                    <td>{{ shoppinglistname}}</td>
                    <td><button class=" btn btn-primary"><div  class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myadd{{shoppinglistname}}"></button></div></td>
                    <td><div  class="glyphicon glyphicon-pencil" ></div></td>
-                   <td><div class="glyphicon glyphicon-remove"> 
-                   </div></td>
+                   <td><form style="display: inline;" action={{url_for('shareShoppingList')}} method="POST">
+                              <input type="hidden"  style="width: 500px" name="shoppinglistname" value="{{shoppinglistname}}">
+                              <button type="submit"  class="btn btn-primary"> <span class="glyphicon glyphicon-share"></span >Share</button>
+                            </form></td>
                  </tr>
 
                  
@@ -319,6 +324,54 @@ $(document).ready(function() {
                     </div>
                     </form>
                   </div>
+
+
+        {% if shar%}
+           
+                  
+           
+           
+           
+<div class="container">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <div class="panel panel-success">
+            <div class="panel-heading heading custom"> 
+            <div class panel title> <center>Shared Shopping Lists</center> 
+            
+            
+
+           </div>
+           </div>
+            <div class="panel-body">
+           <div>
+           
+             <center><div>{{ shar['sharedshoppinglistname']}}</div></center>
+
+             <table class="table table-striped">
+             <tr>
+                 <td>Item names</td>
+               </tr>
+              {% if items %}
+{% for dic in items %}
+                  {% if shoppinglistname==dic["shoppinglistname"] %}
+               <tr>
+                 <td>{{dic["itemname"]}}</td>
+               </tr>
+               
+               {% endif %}
+           {% endfor %}
+           {% endif %}
+             </table>
+           </div>
+           </div>
+           </div>
+           </div>
+           
+
+
+           {% endif %}
                 
                
 

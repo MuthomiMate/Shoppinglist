@@ -4,6 +4,7 @@ Shoppingitems = []
 
 class Shoppinglist(object):
     Shoppinglists = {}
+    sharedshoppinglists = {}
     """an empty list to store my shoppinglists"""
 
     def __init__(self, shoppinglistname=None, owner=None, itemname=None):
@@ -70,7 +71,7 @@ class Shoppinglist(object):
         return self.Shoppinglists
 
     def get_shopping_list(self, shoppinglistname):
-        """defining method to get one shopping lists"""
+        """defining method to get one shopping list"""
         return self.Shoppinglists[shoppinglistname]
 
     def edit(self, old, shoppinglistname, owner):
@@ -135,3 +136,18 @@ class Shoppinglist(object):
                 result = 2
 
         return result
+
+    def share_Shoppinglist(self,shoppinglistname):
+        if shoppinglistname != '':
+            for shoppinglistname in self.Shoppinglists.keys():
+                self.sharedshoppinglists = {'sharedshoppinglistname':shoppinglistname}
+                print (self.sharedshoppinglists)
+                return self.sharedshoppinglists
+
+            return 2
+        return 3
+    def get_sharedShoppinglists(self):
+        return self.sharedshoppinglists
+        
+
+      

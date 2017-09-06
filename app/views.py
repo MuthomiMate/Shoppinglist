@@ -54,9 +54,13 @@ def logins():
             session['user'] = name
             session['email'] = email
             owner=session['email']
+            shared=Newshoppinglist.get_sharedShoppinglists()
+            # print(shared)
             result = Newshoppinglist.get_myshopping_lists(owner)
+            slists=Newshoppinglist.get_shopping_lists()
             shoppingitems = Newshoppinglist.getitems()
-            return render_template('dashboard.html', datas=result, items=shoppingitems)
+            print (shoppingitems)
+            return render_template('dashboard.html', datas=result, items=shoppingitems, shar=shared, slists=slists)
         elif loginResult == 2:
             error = "Password mismatch"
             return render_template('login.html', data=error)	
@@ -279,3 +283,38 @@ def logout():
     """Handles requests to logout a user"""
     session.pop('user', None)
     return redirect(url_for('logins'))
+
+@app.route('/share', methods=['GET', 'POST'])
+def shareShoppingList():
+    if g.user:
+        if request.method == "POST":
+            sentence = request.form['shoppinglistname']
+            Postlist = sentence.split(' ')
+            shoppinglistname = ''.join(Postlist)
+            owner=session['email']
+            result=Newshoppinglist.share_Shoppinglist(shoppinglistname)
+            shoppingitems = Newshoppinglist.getitems()
+            results = Newshoppinglist.get_myshopping_lists(owner)  
+            msg = "shared successfully"
+            return render_template('dashboard.html', data=msg, datas=results, items=shoppingitems)
+            if result == 2:
+                shoppingitems = Newshoppinglist.getitems()
+                results = Newshoppinglist.get_myshopping_lists(owner)  
+                msg = "shopping list does not exist"
+                return render_template('dashboard.html', data=msg, datas=results, items=shoppingitems)
+            else:
+                shoppingitems = Newshoppinglist.getitems()
+                results = Newshoppinglist.get_myshopping_lists(owner)  
+                msg = "shopping list name empty"
+                return render_template('dashboard.html', data=msg, datas=results, items=shoppingitems)
+        else:
+            shoppingitems = Newshoppinglist.getitems()
+            results = Newshoppinglist.get_myshopping_lists(owner)
+            return render_template('dashboard.html', datas=results, items=shoppingitems)
+    else:
+        return render_template('login.html')
+
+
+
+
+
