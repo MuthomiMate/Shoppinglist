@@ -77,8 +77,7 @@ def logins():
         else:
             error = "Wrong credentials please try again"
             return render_template('login.html', data=error)
-    else:
-        return render_template('login.html')
+    return render_template('login.html')
 
 
 @app.before_request
@@ -117,8 +116,7 @@ def createshoppinglist():
                 return render_template('dashboard.html', datas=result,
                                        items=shoppingitems)
             return redirect('/login/')
-        else:
-            return render_template('dashboard.html')
+        return render_template('dashboard.html')
     return render_template('login.html')
 
 
@@ -134,7 +132,7 @@ def delete():
             res = Newshoppinglist.get_shopping_list(shoppinglistname)
             if res:
                 result = Newshoppinglist.delete(shoppinglistname)
-                if result == True:
+                if result is True:
                     message = "successfully deleted"
                     result = Newshoppinglist.get_myshopping_lists(owner)
                     shoppingitems = Newshoppinglist.getitems()
@@ -240,14 +238,12 @@ def edititem():
                                        items=shoppingitems)
             elif result == 2:
                 return render_template('dashboard.html')
-            else:
-                return render_template('dashboard.html')
+            return render_template('dashboard.html')
         else:
             shoppingitems = Newshoppinglist.getitems()
-            for dic in shoppingitems:
-                result = Newshoppinglist.get_shopping_lists()
-                return render_template('dashboard.html', datas=result,
-                                       items=shoppingitems)
+            result = Newshoppinglist.get_shopping_lists()
+            return render_template('dashboard.html', datas=result,
+                                   items=shoppingitems)
     return render_template('login.html')
 
 
@@ -258,7 +254,6 @@ def deleteitem():
         # item = request.form['shoppinglistname']
         itemname = request.form['itemname']
         owner = session['email']
-        itemowner = session['email']
         result = Newshoppinglist.deleteitem(itemname)
         if result == 1:
             message = "successfully deleted"
