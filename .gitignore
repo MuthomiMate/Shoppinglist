@@ -6,3 +6,5 @@ hello.py
 mate
 mate.pub
 mate.txt
+app/__pycache__
+.coverage
