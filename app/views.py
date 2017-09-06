@@ -11,7 +11,7 @@ app.secret_key = os.urandom(24)
 
 
 @app.route('/', methods=['GET', 'POST'])
-def reg():
+def register():
     """Handles the requests for the register view"""
     if request.method == 'POST':
         name = request.form['name']
@@ -22,7 +22,9 @@ def reg():
         result = newuser.register(email, name, username, password, cpassword)
         if result == 1:
             session['user'] = name
-            return render_template('login.html')
+            msg="Account created sucessfully"
+            return render_template('login.html', data=msg)
+
         elif result == 6:
             msg = ("please fill all the fields")
             return render_template('register.html', data=msg)
@@ -60,7 +62,8 @@ def logins():
             slists=Newshoppinglist.get_shopping_lists()
             shoppingitems = Newshoppinglist.getitems()
             print (shoppingitems)
-            return render_template('dashboard.html', datas=result, items=shoppingitems, shar=shared, slists=slists)
+            error = "login sucessful"
+            return render_template('dashboard.html', data=error, datas=result, items=shoppingitems, shar=shared, slists=slists)
         elif loginResult == 2:
             error = "Password mismatch"
             return render_template('login.html', data=error)	
