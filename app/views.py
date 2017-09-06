@@ -93,7 +93,6 @@ def createshoppinglist():
             shoppinglistname = ''.join(Postlist)
             owner = session['email']
             result = Newshoppinglist.create(shoppinglistname, owner)
-            print(shoppinglistname)
             if result == 2:
                 error = "that shopping list name already exists"
                 result = Newshoppinglist.get_myshopping_lists(owner)
