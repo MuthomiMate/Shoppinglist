@@ -22,26 +22,25 @@ def register():
         result = newuser.register(email, name, username, password, cpassword)
         if result == 1:
             session['user'] = name
-            msg = "Account created sucessfully"
-            return render_template('login.html', data=msg)
+            message = "Account created sucessfully"
+            return render_template('login.html', data=message)
 
         elif result == 6:
-            msg = ("please fill all the fields")
-            return render_template('register.html', data=msg)
+            message = ("please fill all the fields")
+            return render_template('register.html', data=message)
         elif result == 5:
-            msg = ("Username has alredy been taken")
-            return render_template('register.html', data=msg)
+            message = ("Username has alredy been taken")
+            return render_template('register.html', data=message)
         elif result == 3:
-            msg = ("password do not match")
-            return render_template('register.html', data=msg)
+            message = ("password do not match")
+            return render_template('register.html', data=message)
         elif result == 2:
             error = "email must be a valid email"
             return render_template('register.html', data=error)
         elif result == 4:
             error = "email already registered"
             return render_template('register.html', data=error)
-    else:
-        return render_template('register.html')
+    return render_template('register.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -120,8 +119,7 @@ def createshoppinglist():
             return redirect('/login/')
         else:
             return render_template('dashboard.html')
-    else:
-        return render_template('login.html')
+    return render_template('login.html')
 
 
 @app.route('/delete/', methods=['GET', 'POST'])
@@ -154,10 +152,8 @@ def delete():
                 shoppingitems = Newshoppinglist.getitems()
                 return render_template('dashboard.html', data=message, datas=result,
                                        items=shoppingitems)
-        else:
-            return render_template('dashboard.html')
-    else:
-        return render_template('login.html')
+        return render_template('dashboard.html')
+    return render_template('login.html')
 
 
 @app.route('/editshoppinglist/<shoppinglistname>')
@@ -168,8 +164,7 @@ def editshoppinglist(shoppinglistname):
         if res:
             return render_template('dashboard.html', data=res)
         return render_template('dashboard.html')
-    else:
-        return render_template('login.html')
+    return render_template('login.html')
 
 
 @app.route('/editshopping/', methods=['GET', 'POST'])
@@ -188,15 +183,14 @@ def editshopping():
                 result = Newshoppinglist.get_myshopping_lists(owner)
 
                 shoppingitems = Newshoppinglist.getitems()
-                return render_template('dashboard.html', msg=message,
+                return render_template('dashboard.html', message=message,
                                        datas=result, items=shoppingitems)
             elif result == 2:
                 return render_template('dashboard.html')
             elif result == 3:
-                msg = "shopping list not found"
+                message = "shopping list not found"
                 return render_template('dashboard.html')
-    else:
-        return render_template('login.html')
+    return render_template('login.html')
 
 
 @app.route('/createitem/', methods=['GET', 'POST'])
@@ -223,8 +217,7 @@ def additems():
                 result = Newshoppinglist.get_shopping_lists()
                 return render_template('dashboard.html', datas=result,
                                        items=shoppingitems, data=message)
-        else:
-            return render_template('dashboard.html')
+        return render_template('dashboard.html')
     return render_template('login.html')
 
 
@@ -255,8 +248,7 @@ def edititem():
                 result = Newshoppinglist.get_shopping_lists()
                 return render_template('dashboard.html', datas=result,
                                        items=shoppingitems)
-    else:
-        return render_template('login.html')
+    return render_template('login.html')
 
 
 @app.route('/deleteitem', methods=['GET', 'POST'])
@@ -301,25 +293,24 @@ def shareShoppingList():
             result = Newshoppinglist.share_Shoppinglist(shoppinglistname)
             shoppingitems = Newshoppinglist.getitems()
             results = Newshoppinglist.get_myshopping_lists(owner)
-            msg = "shared successfully"
-            return render_template('dashboard.html', data=msg,
+            message = "shared successfully"
+            return render_template('dashboard.html', data=message,
                                    datas=results, items=shoppingitems)
             if result == 2:
                 shoppingitems = Newshoppinglist.getitems()
                 results = Newshoppinglist.get_myshopping_lists(owner)
-                msg = "shopping list does not exist"
-                return render_template('dashboard.html', data=msg,
+                message = "shopping list does not exist"
+                return render_template('dashboard.html', data=message,
                                        datas=results, items=shoppingitems)
             else:
                 shoppingitems = Newshoppinglist.getitems()
                 results = Newshoppinglist.get_myshopping_lists(owner)
-                msg = "shopping list name empty"
-                return render_template('dashboard.html', data=msg,
+                message = "shopping list name empty"
+                return render_template('dashboard.html', data=message,
                                        datas=results, items=shoppingitems)
         else:
             shoppingitems = Newshoppinglist.getitems()
             results = Newshoppinglist.get_myshopping_lists(owner)
             return render_template('dashboard.html', datas=results,
                                    items=shoppingitems)
-    else:
-        return render_template('login.html')
+    return render_template('login.html')
