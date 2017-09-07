@@ -17,26 +17,32 @@ class User(object):
 
     def register(self, email, name, username, password, cpassword):
         """defining method to create account"""
-        if name != '' and username != '' and email != '' and password != '':
-            if username not in users.keys():
-                if email not in users.keys():
-                    if password == cpassword:
-                        regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
-                        result = email
-                        if re.search(regex, result):
-                            users[email] = {
-                                'name': name,
-                                'username': username,
-                                'email': email,
-                                'pass': password,
-                            }
-                            print(users)
-                            return 1
-                        return 2
-                    return 3
-                return 4
-            return 5
-        return 6
+        if re.match("[a-zA-Z0-9- .]+$",name):
+            if name != '' and username != '' and email != '' and password != '':
+                if username not in users.keys():
+                    if email not in users.keys():
+                        if password == cpassword:
+                            regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
+                            regPass = r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                            result = email
+                            if re.search(regex, result):
+                                if re.search(regPass, password):
+                                    users[email] = {
+                                        'name': name,
+                                        'username': username,
+                                        'email': email,
+                                        'pass': password,
+                                    }
+                                    return 1
+                                return 7
+
+                            return 2
+                        return 3
+                    return 4
+                return 5
+            return 6
+        return 8
+
 
     def login(self, email, password):
         """ defining method to Log in user"""

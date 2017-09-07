@@ -1,3 +1,4 @@
+import re
 Shoppingitems = []
 # an empty list to store my item
 
@@ -15,29 +16,29 @@ class Shoppinglist(object):
 
     def create(self, shoppinglistname, owner):
         """defining method to create shopping list"""
-        if shoppinglistname != '':
-            # call the get_myshopping_lists function that contains individual
-            # user shoppinglists
-            my_shoppings = self.get_myshopping_lists(owner)
-            if my_shoppings != {}:
-                # check's if user already has a shopping list
-                if shoppinglistname not in my_shoppings.keys():
+        if re.match("[a-zA-Z0-9- .]+$", shoppinglistname):
+            if shoppinglistname != '':
+                # call the get_myshopping_lists function that contains individual
+                # user shoppinglists
+                my_shoppings = self.get_myshopping_lists(owner)
+                if my_shoppings != {}:
+                    # check's if user already has a shopping list
+                    if shoppinglistname not in my_shoppings.keys():
+                        self.Shoppinglists[shoppinglistname] = {
+                            'shoppinglistname': shoppinglistname,
+                            'owner': owner,
+                        }
+                        return 1
+                    return 2
+                else:
+                     # user's first shopping list
                     self.Shoppinglists[shoppinglistname] = {
                         'shoppinglistname': shoppinglistname,
                         'owner': owner,
                     }
                     return 1
-                else:
-                    return 2
-            else:
-                # user's first shopping list
-                self.Shoppinglists[shoppinglistname] = {
-                    'shoppinglistname': shoppinglistname,
-                    'owner': owner,
-                }
-                return 1
-        else:
             return 3
+        return 4
 
     def get_myshopping_lists(self, owner):
         """defining method to get one user's shopping lists"""
@@ -75,25 +76,29 @@ class Shoppinglist(object):
 
     def edit(self, old, shoppinglistname, owner):
         """defining method to edit shopping list"""
-        if shoppinglistname != '':
-            if old in self.Shoppinglists.keys():
-                del self.Shoppinglists[old]
-                self.Shoppinglists[shoppinglistname] = {
-                    'shoppinglistname': shoppinglistname,
-                    'owner': owner,
-                }
-                return 1
-            return 3
-        return 2
+        if re.match("[a-zA-Z0-9- .]+$", shoppinglistname):
+            if shoppinglistname != '':
+                if old in self.Shoppinglists.keys():
+                    del self.Shoppinglists[old]
+                    self.Shoppinglists[shoppinglistname] = {
+                        'shoppinglistname': shoppinglistname,
+                        'owner': owner,
+                    }
+                    return 1
+                return 3
+            return 2
+        return 4
 
     @classmethod
     def createitem(cls, itemname, shoppinglistname, owner):
         """defining method to create an item in a shopping list"""
-        if itemname != '':
-            Shoppingitems.append(
-                {'shoppinglistname': shoppinglistname, 'itemname': itemname})
-            return 1
-        return 2
+        if re.match("[a-zA-Z0-9- .]+$", itemname):
+            if itemname != '':
+                Shoppingitems.append(
+                    {'shoppinglistname': shoppinglistname, 'itemname': itemname})
+                return 1
+            return 2
+        return 3
 
     @classmethod
     def getitems(cls):
@@ -104,20 +109,21 @@ class Shoppinglist(object):
     @classmethod
     def itemedit(cls, itemname, old):
         """defining method to edit an item in a shopping"""
-        if itemname != "":
-            for dic in range(len(Shoppingitems)):
-                if Shoppingitems[dic]['itemname'] == old:
-                    del Shoppingitems[dic]['itemname']
-                    Shoppingitems[dic]['itemname'] = itemname
-                    return 1
-        else:
+        if re.match("[a-zA-Z0-9- .]+$", itemname):
+            if itemname != "":
+                for dic in range(len(Shoppingitems)):
+                    if Shoppingitems[dic]['itemname'] == old:
+                        del Shoppingitems[dic]['itemname']
+                        Shoppingitems[dic]['itemname'] = itemname
+                        return 1
             return 2
+        return 3
 
     @classmethod
     def deleteitem(cls, itemname, shoppinglistname):
         """ defining method to delete an item from shopping"""
         for dic in range(0, len(Shoppingitems)):
-            if Shoppingitems[dic]['itemname'] == itemname and Shoppingitems[dic]['shoppinglistname'] :
+            if Shoppingitems[dic]['itemname'] == itemname and Shoppingitems[dic]['shoppinglistname']:
                 del Shoppingitems[dic]
                 return 1
         return 2

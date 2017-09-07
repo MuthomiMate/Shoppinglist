@@ -28,6 +28,12 @@ def register():
         elif result == 6:
             message = ("please fill all the fields")
             return render_template('register.html', data=message)
+        elif result == 8:
+            message = ("Special characters not allowed in field name")
+            return render_template('register.html', data=message)
+        elif result == 7:
+            message = ("Password should have minimum eight characters, at least one letter and one number")
+            return render_template('register.html', data=message)
         elif result == 5:
             message = ("Username has alredy been taken")
             return render_template('register.html', data=message)
@@ -110,6 +116,13 @@ def createshoppinglist():
                 result = Newshoppinglist.get_myshopping_lists(owner)
                 return render_template('dashboard.html', data=error, datas=result,
                                        items=shoppingitems)
+            if result == 4:
+                shoppingitems = Newshoppinglist.getitems()
+
+                error = "Special characters not allowed"
+                result = Newshoppinglist.get_myshopping_lists(owner)
+                return render_template('dashboard.html', data=error, datas=result,
+                                       items=shoppingitems)
             if result == 1:
                 result = Newshoppinglist.get_myshopping_lists(owner)
                 shoppingitems = Newshoppinglist.getitems()
@@ -188,6 +201,9 @@ def editshopping():
             elif result == 3:
                 message = "shopping list not found"
                 return render_template('dashboard.html')
+            elif result == 4:
+                message = "special characters not allowed"
+                return render_template('dashboard.html')
     return render_template('login.html')
 
 
@@ -212,6 +228,12 @@ def additems():
             elif result == 2:
                 shoppingitems = Newshoppinglist.getitems()
                 message = "item already exists"
+                result = Newshoppinglist.get_shopping_lists()
+                return render_template('dashboard.html', datas=result,
+                                       items=shoppingitems, data=message)
+            elif result == 3:
+                shoppingitems = Newshoppinglist.getitems()
+                message = "Special characters not allowed"
                 result = Newshoppinglist.get_shopping_lists()
                 return render_template('dashboard.html', datas=result,
                                        items=shoppingitems, data=message)
