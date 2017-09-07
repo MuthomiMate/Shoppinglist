@@ -62,8 +62,15 @@ class Shoppinglist(object):
         """defining method to delete shopping list"""
         if shoppinglistname in self.Shoppinglists.keys():
             # checks if the shoppinglistname being deleted exists
-            del self.Shoppinglists[shoppinglistname]
-            return 1
+            for dic in range(0, len(Shoppingitems)):
+                if Shoppingitems[dic]['shoppinglistname'] == shoppinglistname:
+                    del Shoppingitems[dic]['itemname']
+                    del Shoppingitems[dic]['shoppinglistname']
+                    del Shoppingitems[dic]['owner']
+                    del self.Shoppinglists[shoppinglistname]
+                    return 1
+            return 2
+            
         return 2
 
     def get_shopping_lists(self):
@@ -95,7 +102,7 @@ class Shoppinglist(object):
         if re.match("[a-zA-Z0-9- .]+$", itemname):
             if itemname != '':
                 Shoppingitems.append(
-                    {'shoppinglistname': shoppinglistname, 'itemname': itemname})
+                    {'shoppinglistname': shoppinglistname, 'itemname': itemname, 'owner': owner })
                 return 1
             return 2
         return 3
@@ -103,7 +110,7 @@ class Shoppinglist(object):
     @classmethod
     def getitems(cls):
         """ defining method to delete an item from shopping list"""
-        print(Shoppingitems)
+        
         return Shoppingitems
 
     @classmethod
@@ -123,21 +130,8 @@ class Shoppinglist(object):
     def deleteitem(cls, itemname, shoppinglistname):
         """ defining method to delete an item from shopping"""
         for dic in range(0, len(Shoppingitems)):
-            if Shoppingitems[dic]['itemname'] == itemname and Shoppingitems[dic]['shoppinglistname']:
+            if Shoppingitems[dic]['itemname'] == itemname and Shoppingitems[dic]['shoppinglistname'] == shoppinglistname:
                 del Shoppingitems[dic]
                 return 1
         return 2
 
-    def share_Shoppinglist(self, shoppinglistname):
-        if shoppinglistname != '':
-            for shoppinglistname in self.Shoppinglists.keys():
-                self.sharedshoppinglists = {
-                    'sharedshoppinglistname': shoppinglistname}
-                print(self.sharedshoppinglists)
-                return self.sharedshoppinglists
-
-            return 2
-        return 3
-
-    def get_sharedShoppinglists(self):
-        return self.sharedshoppinglists

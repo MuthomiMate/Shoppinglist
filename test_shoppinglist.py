@@ -91,13 +91,6 @@ class Shoppingtest(unittest.TestCase):
         output = self.shoppings.deleteitem('mate','mate')
         self.assertEqual(1, output, "Item successfully deleted") 
 
-    def tests_edit_item(self):
-        """defining method to test editing an  existing item"""
-        self.shoppings.ShoppingItems = []
-        self.shoppings.createitem('mate', 'mate','muthomi@gmail.com')
-        output = self.shoppings.itemedit('mate', 'mate')
-        self.assertEqual(1, output, "Item successfully edited")
-
     def tests_edit_null_item(self):
         """defining method to test editing an empty item field"""
         self.shoppings.Shoppingitems = []

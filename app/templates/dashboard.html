@@ -58,29 +58,30 @@
            {% if data%}
     <center><div class="alert alert-danger">{{ data }}</div></center>
     {% endif %}
-    {
-    {% if sucess%}
-    <center><div class="alert alert-success">{{ data }}</div></center>
+    
+    {% if success%}
+    <center><div class="alert alert-success">{{ success }}</div></center>
     {% endif %}
-    }
-<ul style="float: right;">
-           <button class=" btn btn-primary" style="float: right;"><div  class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myModal">Add shopping list</button></div>
+    
+          <div class="container" style="width: 100%;">
+
+           <button class=" btn btn-primary" style="width: 25%; float: left; margin-right: 50px;"><div  class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myModal">Add shopping list</div></button>
 
 
 
            {% if datas %}
            <div>
-           <button class=" btn btn-primary" style="float: right;"><div  class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#mmyModal">Edit shopping list</button>
+           <button class="btn btn-success" style="width: 25%; float: left; margin-right: 50px; ><div  class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#mmyModal">Edit shopping list</button>
            </div>
            <div>
-           <button class=" btn btn-primary" style=" float: right;"><div  class="glyphicon glyphicon-remove" data-toggle="modal" data-target="#delModal">Delete shopping list</button>
+           <button class="btn btn-danger" style="width: 25%; float: left;margin-right: 50px;><div  class="glyphicon glyphicon-remove" data-toggle="modal" data-target="#delModal">Delete shopping list</button>
            </div>
-           </ul>
             <div> 
+            </div><br>
             
                   {% for shoppinglistname in datas %}  
 
-                  <h4> <p align=center>{{ shoppinglistname}}
+                  <h4> <p align=center style="margin-top: 70px;">{{ shoppinglistname}}
                 <div class="modal fade" id="myadd{{shoppinglistname}}">
               <form method="POST" action={{url_for('additems')}}>
                 <div class="modal-dialog">
@@ -110,29 +111,18 @@
     <table class="table table-striped" style="margin-top: 20px;  "> 
                  <tr>
                  <th>Name</th>
-                 <th> Add item </th>
+                 <th> <button class=" btn btn-primary"><div  class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myadd{{shoppinglistname}}">Add item</button></div> </th>
                  <th>Edit item</th>
                  <th> Delete item </th>
                  </tr>
-
-                  
-
-                 <tr>
-                   <td>{{ shoppinglistname}}</td>
-                   <td><button class=" btn btn-primary"><div  class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myadd{{shoppinglistname}}"></button></div></td>
-                   <td><div  class="glyphicon glyphicon-pencil" ></div></td>
-                   <td><form style="display: inline;" action={{url_for('shareShoppingList')}} method="POST">
-                              <input type="hidden"  style="width: 500px" name="shoppinglistname" value="{{shoppinglistname}}">
-                              <button type="submit"  class="btn btn-primary"> <span class="glyphicon glyphicon-share"></span >Share</button>
-                            </form></td>
-                 </tr>
-
-                 
-                
+               
                  
         {% if items %}
                   {% for dic in items %}
                   {% if shoppinglistname==dic["shoppinglistname"] %}
+                  {% if owner %}
+                  {% if owner==dic["owner"] %}
+                  {% if dic["itemname"] !='' %}
 
 
                  <tr>
@@ -143,11 +133,11 @@
 
 
 
-                   <td><button class=" btn btn-primary"><div  class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#myEdit{{dic["itemname"]}}"></button></div></td>
+                   <td><button  class="btn btn-success" ><div  class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#myEdit{{dic["itemname"]}}"></button></div></td>
                    <td><form style="display: inline;" action={{url_for('deleteitem')}} method="POST">
                               <input type="hidden"  style="width: 500px" name="itemname" value="{{dic["itemname"]}}">
                               <input type="hidden"  style="width: 500px" name="shoppinglistname" value="{{dic["shoppinglistname"]}}">
-                              <button type="submit"  class="btn btn-primary"> <span class="glyphicon glyphicon-remove"></span ></button>
+                              <button type="submit"  class="btn btn-danger"  "> <span class="glyphicon glyphicon-remove"></span ></button>
                             </form></td>
                  </tr>
                  <div class="modal fade" id="myEdit{{dic["itemname"]}}">
@@ -174,6 +164,9 @@
                     </div>
                     </form>
                   </div>
+                  {% endif %} 
+                    {% endif %} 
+                    {% endif %} 
               {% endif %}   
             {% endfor %}
                 {% endif %}

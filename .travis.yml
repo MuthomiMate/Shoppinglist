@@ -3,7 +3,9 @@ python:
     "3.6"
 install:
      "pip install -r requirements.txt" 
-script: 
-     - "python tests"
-     - "coverage tests"
+script:
+     - "python test_user.py"
+     - "python test_shoppinglist.py"
+     - "coverage test_user.py"
+     - ""coverage test_shoppinglist.py
 after_success: coveralls

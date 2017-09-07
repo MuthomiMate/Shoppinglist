@@ -31,7 +31,8 @@ def register():
             message = ("Special characters not allowed in field name")
             return render_template('register.html', data=message)
         elif result == 7:
-            message = ("Password should have minimum eight characters, at least one letter and one number")
+            message = (
+                "Password should have minimum eight characters, at least one letter and one number")
             return render_template('register.html', data=message)
         elif result == 5:
             message = ("Username has alredy been taken")
@@ -61,15 +62,11 @@ def logins():
             session['user'] = name
             session['email'] = email
             owner = session['email']
-            shared = Newshoppinglist.get_sharedShoppinglists()
-            # print(shared)
             result = Newshoppinglist.get_myshopping_lists(owner)
-            slists = Newshoppinglist.get_shopping_lists()
             shoppingitems = Newshoppinglist.getitems()
-            print(shoppingitems)
             error = "login sucessful"
             return render_template('dashboard.html', success=error, datas=result, items=shoppingitems,
-                                   shar=shared, slists=slists)
+                                   owner=owner)
         elif loginResult == 2:
             error = "Password mismatch"
             return render_template('login.html', data=error)
@@ -107,26 +104,26 @@ def createshoppinglist():
                 result = Newshoppinglist.get_myshopping_lists(owner)
                 shoppingitems = Newshoppinglist.getitems()
                 return render_template('dashboard.html', data=error, datas=result,
-                                       items=shoppingitems)
+                                       items=shoppingitems, owner=owner)
             if result == 3:
                 shoppingitems = Newshoppinglist.getitems()
 
                 error = "Please fill all the fields"
                 result = Newshoppinglist.get_myshopping_lists(owner)
                 return render_template('dashboard.html', data=error, datas=result,
-                                       items=shoppingitems)
+                                       items=shoppingitems, owner=owner)
             if result == 4:
                 shoppingitems = Newshoppinglist.getitems()
 
                 error = "Special characters not allowed"
                 result = Newshoppinglist.get_myshopping_lists(owner)
                 return render_template('dashboard.html', data=error, datas=result,
-                                       items=shoppingitems)
+                                       items=shoppingitems, owner=owner)
             if result == 1:
                 result = Newshoppinglist.get_myshopping_lists(owner)
                 shoppingitems = Newshoppinglist.getitems()
                 return render_template('dashboard.html', datas=result,
-                                       items=shoppingitems)
+                                       items=shoppingitems, owner=owner)
             return redirect('/login/')
         return render_template('dashboard.html')
     return render_template('login.html')
@@ -149,19 +146,19 @@ def delete():
                     result = Newshoppinglist.get_myshopping_lists(owner)
                     shoppingitems = Newshoppinglist.getitems()
                     return render_template('dashboard.html', success=message, datas=result,
-                                           items=shoppingitems)
+                                           items=shoppingitems, owner=owner)
                 else:
                     message = "successfully deleted"
                     result = Newshoppinglist.get_myshopping_lists(owner)
                     shoppingitems = Newshoppinglist.getitems()
                     return render_template('dashboard.html', success=message, datas=result,
-                                           items=shoppingitems)
+                                           items=shoppingitems, owner=owner)
             else:
                 message = "not found"
                 result = Newshoppinglist.get_myshopping_lists(owner)
                 shoppingitems = Newshoppinglist.getitems()
                 return render_template('dashboard.html', data=message, datas=result,
-                                       items=shoppingitems)
+                                       items=shoppingitems, owner=owner)
         return render_template('dashboard.html')
     return render_template('login.html')
 
@@ -184,8 +181,8 @@ def editshopping():
         if request.method == "POST":
             old = request.form['old']
             sentence = request.form['shoppinglistname']
-            Postlist = sentence.split(' ')
-            shoppinglistname = ''.join(Postlist)
+            postlist = sentence.split(' ')
+            shoppinglistname = ''.join(postlist)
             owner = session['email']
             result = Newshoppinglist.edit(old, shoppinglistname, owner)
             if result == 1:
@@ -194,7 +191,7 @@ def editshopping():
 
                 shoppingitems = Newshoppinglist.getitems()
                 return render_template('dashboard.html', success=message,
-                                       datas=result, items=shoppingitems)
+                                       datas=result, items=shoppingitems, owner=owner)
             elif result == 2:
                 return render_template('dashboard.html')
             elif result == 3:
@@ -220,22 +217,20 @@ def additems():
                 shoppinglistname, itemname, owner)
             if result == 1:
                 shoppingitems = Newshoppinglist.getitems()
-                # print (shoppingitems)
-                # print('yes')
                 result = Newshoppinglist.get_myshopping_lists(owner)
-                return render_template('dashboard.html', datas=result, items=shoppingitems)
+                return render_template('dashboard.html', datas=result, items=shoppingitems, owner=owner)
             elif result == 2:
                 shoppingitems = Newshoppinglist.getitems()
                 message = "item already exists"
                 result = Newshoppinglist.get_shopping_lists()
                 return render_template('dashboard.html', datas=result,
-                                       items=shoppingitems, data=message)
+                                       items=shoppingitems, data=message, owner=owner)
             elif result == 3:
                 shoppingitems = Newshoppinglist.getitems()
                 message = "Special characters not allowed"
                 result = Newshoppinglist.get_shopping_lists()
                 return render_template('dashboard.html', datas=result,
-                                       items=shoppingitems, data=message)
+                                       items=shoppingitems, data=message, owner=owner)
         return render_template('dashboard.html')
     return render_template('login.html')
 
@@ -253,18 +248,24 @@ def edititem():
             result = Newshoppinglist.itemedit(item, old)
             if result == 1:
                 shoppingitems = Newshoppinglist.getitems()
-                print(shoppingitems)
+                message = "edited successfully"
                 result = Newshoppinglist.get_myshopping_lists(owner)
-                return render_template('dashboard.html', datas=result,
-                                       items=shoppingitems)
+
+                return render_template('dashboard.html', success=message, items=shoppingitems,
+                                       datas=result, owner=owner)
             elif result == 2:
+                shoppingitems = Newshoppinglist.getitems()
+                result = Newshoppinglist.get_myshopping_lists(owner)
                 return render_template('dashboard.html')
-            return render_template('dashboard.html')
+            shoppingitems = Newshoppinglist.getitems()
+            result = Newshoppinglist.get_myshopping_lists(owner)
+            return render_template('dashboard.html', datas=result,
+                                   items=shoppingitems, owner=owner)
         else:
             shoppingitems = Newshoppinglist.getitems()
             result = Newshoppinglist.get_shopping_lists()
             return render_template('dashboard.html', datas=result,
-                                   items=shoppingitems)
+                                   items=shoppingitems, owner=owner)
     return render_template('login.html')
 
 
@@ -275,20 +276,20 @@ def deleteitem():
         shoppinglistname = request.form['shoppinglistname']
         itemname = request.form['itemname']
         owner = session['email']
-        result = Newshoppinglist.deleteitem(itemname,shoppinglistname)
+        result = Newshoppinglist.deleteitem(itemname, shoppinglistname)
         if result == 1:
             message = "successfully deleted"
             shoppingitems = Newshoppinglist.getitems()
             results = Newshoppinglist.get_myshopping_lists(owner)
             return render_template('dashboard.html', success=message,
-                                   datas=results, items=shoppingitems)
+                                   datas=results, items=shoppingitems, owner=owner)
         else:
             message = "Item not deleted"
             shoppingitems = Newshoppinglist.getitems()
             results = Newshoppinglist.get_myshopping_lists(owner)
             return render_template('dashboard.html', data=message,
-                                   datas=results, items=shoppingitems)
-    return render_template('dashboard.html')
+                                   datas=results, items=shoppingitems, owner=owner)
+    return render_template('login.html')
 
 
 @app.route('/logout')
@@ -296,37 +297,3 @@ def logout():
     """Handles requests to logout a user"""
     session.pop('user', None)
     return redirect(url_for('logins'))
-
-
-@app.route('/share', methods=['GET', 'POST'])
-def shareShoppingList():
-    if g.user:
-        if request.method == "POST":
-            sentence = request.form['shoppinglistname']
-            Postlist = sentence.split(' ')
-            shoppinglistname = ''.join(Postlist)
-            owner = session['email']
-            result = Newshoppinglist.share_Shoppinglist(shoppinglistname)
-            shoppingitems = Newshoppinglist.getitems()
-            results = Newshoppinglist.get_myshopping_lists(owner)
-            message = "shared successfully"
-            return render_template('dashboard.html', data=message,
-                                   datas=results, items=shoppingitems)
-            if result == 2:
-                shoppingitems = Newshoppinglist.getitems()
-                results = Newshoppinglist.get_myshopping_lists(owner)
-                message = "shopping list does not exist"
-                return render_template('dashboard.html', data=message,
-                                       datas=results, items=shoppingitems)
-            else:
-                shoppingitems = Newshoppinglist.getitems()
-                results = Newshoppinglist.get_myshopping_lists(owner)
-                message = "shopping list name empty"
-                return render_template('dashboard.html', data=message,
-                                       datas=results, items=shoppingitems)
-        else:
-            shoppingitems = Newshoppinglist.getitems()
-            results = Newshoppinglist.get_myshopping_lists(owner)
-            return render_template('dashboard.html', datas=results,
-                                   items=shoppingitems)
-    return render_template('login.html')
