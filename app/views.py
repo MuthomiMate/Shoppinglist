@@ -193,13 +193,23 @@ def editshopping():
                 return render_template('dashboard.html', success=message,
                                        datas=result, items=shoppingitems, owner=owner)
             elif result == 2:
-                return render_template('dashboard.html')
-            elif result == 3:
                 message = "shopping list not found"
-                return render_template('dashboard.html')
+                result = Newshoppinglist.get_myshopping_lists(owner)
+                shoppingitems = Newshoppinglist.getitems()
+                return render_template('dashboard.html', data=message,
+                                       datas=result, items=shoppingitems, owner=owner)
+            elif result == 3:
+                result = Newshoppinglist.get_myshopping_lists(owner)
+                shoppingitems = Newshoppinglist.getitems()
+                message = "shopping list not found"
+                return render_template('dashboard.html', data=message,
+                                       datas=result, items=shoppingitems, owner=owner)
             elif result == 4:
+                result = Newshoppinglist.get_myshopping_lists(owner)
+                shoppingitems = Newshoppinglist.getitems()
                 message = "special characters not allowed"
-                return render_template('dashboard.html')
+                return render_template('dashboard.html', data=message,
+                                       datas=result, items=shoppingitems, owner=owner)
     return render_template('login.html')
 
 
