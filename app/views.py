@@ -151,7 +151,7 @@ def delete():
                     return render_template('dashboard.html', data=message, datas=result,
                                            items=shoppingitems)
                 else:
-                    message = "shopping list was not deleted"
+                    message = "successfully deleted"
                     result = Newshoppinglist.get_myshopping_lists(owner)
                     shoppingitems = Newshoppinglist.getitems()
                     return render_template('dashboard.html', data=message, datas=result,
