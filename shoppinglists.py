@@ -114,10 +114,10 @@ class Shoppinglist(object):
             return 2
 
     @classmethod
-    def deleteitem(cls, itemname):
+    def deleteitem(cls, itemname, shoppinglistname):
         """ defining method to delete an item from shopping"""
         for dic in range(0, len(Shoppingitems)):
-            if Shoppingitems[dic]['itemname'] == itemname:
+            if Shoppingitems[dic]['itemname'] == itemname and Shoppingitems[dic]['shoppinglistname'] :
                 del Shoppingitems[dic]
                 return 1
         return 2

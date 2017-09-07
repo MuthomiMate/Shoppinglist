@@ -251,10 +251,10 @@ def edititem():
 def deleteitem():
     """Handles requests for deleting an item"""
     if g.user:
-        # item = request.form['shoppinglistname']
+        shoppinglistname = request.form['shoppinglistname']
         itemname = request.form['itemname']
         owner = session['email']
-        result = Newshoppinglist.deleteitem(itemname)
+        result = Newshoppinglist.deleteitem(itemname,shoppinglistname)
         if result == 1:
             message = "successfully deleted"
             shoppingitems = Newshoppinglist.getitems()
