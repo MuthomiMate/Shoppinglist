@@ -59,16 +59,16 @@
     <center><div class="alert alert-danger">{{ data }}</div></center>
     {% endif %}
 <ul style="float: right;">
-           <button class=" btn btn-primary" style="float: right;"><div  class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myModal"> Add new shopping list</button></div>
+           <button class=" btn btn-primary" style="float: right;"><div  class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myModal">Add shopping list</button></div>
 
 
 
            {% if datas %}
            <div>
-           <button class=" btn btn-primary" style="float: right;"><div  class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#mmyModal"> Edit shopping list</button>
+           <button class=" btn btn-primary" style="float: right;"><div  class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#mmyModal">Edit shopping list</button>
            </div>
            <div>
-           <button class=" btn btn-primary" style=" float: right;"><div  class="glyphicon glyphicon-remove" data-toggle="modal" data-target="#delModal"> Delete shopping list</button>
+           <button class=" btn btn-primary" style=" float: right;"><div  class="glyphicon glyphicon-remove" data-toggle="modal" data-target="#delModal">Delete shopping list</button>
            </div>
            </ul>
             <div> 
@@ -128,6 +128,7 @@
         {% if items %}
                   {% for dic in items %}
                   {% if shoppinglistname==dic["shoppinglistname"] %}
+
 
                  <tr>
                    <td>{{dic["itemname"]}}</td>

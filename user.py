@@ -8,18 +8,17 @@ class User(object):
     Class to handle  user functions
     """
 
-    def __init__(self, name=None, username=None, email=None, password=None):
+    def __init__(self, name=None, email=None, password=None):
         """ Initializing  class instance variables"""
         self.name = name
         self.email = email
         self.password = password
-        self.username = username
 
-    def register(self, email, name, username, password, cpassword):
+    def register(self, email, name, password, cpassword):
         """defining method to create account"""
         if re.match("[a-zA-Z0-9- .]+$",name):
-            if name != '' and username != '' and email != '' and password != '':
-                if username not in users.keys():
+            if name != '' and email != '' and password != '':
+                if name not in users.keys():
                     if email not in users.keys():
                         if password == cpassword:
                             regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
@@ -29,7 +28,6 @@ class User(object):
                                 if re.search(regPass, password):
                                     users[email] = {
                                         'name': name,
-                                        'username': username,
                                         'email': email,
                                         'pass': password,
                                     }
@@ -59,7 +57,7 @@ class User(object):
     def get_user_name(self, email):
         if email in users.keys():
             result = users[email]
-            return result['username']
+            return result['name']
         return False
 
     def get_user_email(self, email):

@@ -15,11 +15,10 @@ def register():
     """Handles the requests for the register view"""
     if request.method == 'POST':
         name = request.form['name']
-        username = request.form['username']
         email = request.form['email']
         password = request.form['password']
         cpassword = request.form['cpassword']
-        result = newuser.register(email, name, username, password, cpassword)
+        result = newuser.register(email, name, password, cpassword)
         if result == 1:
             session['user'] = name
             message = "Account created sucessfully"
