@@ -68,7 +68,7 @@ def logins():
             shoppingitems = Newshoppinglist.getitems()
             print(shoppingitems)
             error = "login sucessful"
-            return render_template('dashboard.html', data=error, datas=result, items=shoppingitems,
+            return render_template('dashboard.html', success=error, datas=result, items=shoppingitems,
                                    shar=shared, slists=slists)
         elif loginResult == 2:
             error = "Password mismatch"
@@ -148,13 +148,13 @@ def delete():
                     message = "successfully deleted"
                     result = Newshoppinglist.get_myshopping_lists(owner)
                     shoppingitems = Newshoppinglist.getitems()
-                    return render_template('dashboard.html', data=message, datas=result,
+                    return render_template('dashboard.html', success=message, datas=result,
                                            items=shoppingitems)
                 else:
                     message = "successfully deleted"
                     result = Newshoppinglist.get_myshopping_lists(owner)
                     shoppingitems = Newshoppinglist.getitems()
-                    return render_template('dashboard.html', data=message, datas=result,
+                    return render_template('dashboard.html', success=message, datas=result,
                                            items=shoppingitems)
             else:
                 message = "not found"
@@ -193,7 +193,7 @@ def editshopping():
                 result = Newshoppinglist.get_myshopping_lists(owner)
 
                 shoppingitems = Newshoppinglist.getitems()
-                return render_template('dashboard.html', message=message,
+                return render_template('dashboard.html', success=message,
                                        datas=result, items=shoppingitems)
             elif result == 2:
                 return render_template('dashboard.html')
@@ -280,7 +280,7 @@ def deleteitem():
             message = "successfully deleted"
             shoppingitems = Newshoppinglist.getitems()
             results = Newshoppinglist.get_myshopping_lists(owner)
-            return render_template('dashboard.html', data=message,
+            return render_template('dashboard.html', success=message,
                                    datas=results, items=shoppingitems)
         else:
             message = "Item not deleted"

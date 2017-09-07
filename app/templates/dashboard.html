@@ -58,6 +58,11 @@
            {% if data%}
     <center><div class="alert alert-danger">{{ data }}</div></center>
     {% endif %}
+    {
+    {% if sucess%}
+    <center><div class="alert alert-success">{{ data }}</div></center>
+    {% endif %}
+    }
 <ul style="float: right;">
            <button class=" btn btn-primary" style="float: right;"><div  class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myModal">Add shopping list</button></div>
 
