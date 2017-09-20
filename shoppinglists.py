@@ -62,15 +62,18 @@ class Shoppinglist(object):
         """defining method to delete shopping list"""
         if shoppinglistname in self.Shoppinglists.keys():
             # checks if the shoppinglistname being deleted exists
-            for dic in range(0, len(Shoppingitems)):
-                if Shoppingitems[dic]['shoppinglistname'] == shoppinglistname:
-                    del Shoppingitems[dic]['itemname']
-                    del Shoppingitems[dic]['shoppinglistname']
-                    del Shoppingitems[dic]['owner']
-                    del self.Shoppinglists[shoppinglistname]
-                    return 1
-            return 2
-            
+            if Shoppingitems:
+                for dic in range(0, len(Shoppingitems)):
+                    if Shoppingitems[dic]['shoppinglistname'] == shoppinglistname:
+                        del Shoppingitems[dic]['itemname']
+                        del Shoppingitems[dic]['shoppinglistname']
+                        del Shoppingitems[dic]['owner']
+                        del self.Shoppinglists[shoppinglistname]
+                        return 1
+                return 2
+            else:
+                del self.Shoppinglists[shoppinglistname]
+                return 1
         return 2
 
     def get_shopping_lists(self):

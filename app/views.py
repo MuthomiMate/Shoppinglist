@@ -141,14 +141,14 @@ def delete():
             res = Newshoppinglist.get_shopping_list(shoppinglistname)
             if res:
                 result = Newshoppinglist.delete(shoppinglistname)
-                if result is True:
+                if result == 1:
                     message = "successfully deleted"
                     result = Newshoppinglist.get_myshopping_lists(owner)
                     shoppingitems = Newshoppinglist.getitems()
                     return render_template('dashboard.html', success=message, datas=result,
                                            items=shoppingitems, owner=owner)
                 else:
-                    message = "successfully deleted"
+                    message = "Not successfully deleted"
                     result = Newshoppinglist.get_myshopping_lists(owner)
                     shoppingitems = Newshoppinglist.getitems()
                     return render_template('dashboard.html', success=message, datas=result,
@@ -232,13 +232,13 @@ def additems():
             elif result == 2:
                 shoppingitems = Newshoppinglist.getitems()
                 message = "item already exists"
-                result = Newshoppinglist.get_shopping_lists()
+                result = Newshoppinglist.get_myshopping_lists(owner)
                 return render_template('dashboard.html', datas=result,
                                        items=shoppingitems, data=message, owner=owner)
             elif result == 3:
                 shoppingitems = Newshoppinglist.getitems()
                 message = "Special characters not allowed"
-                result = Newshoppinglist.get_shopping_lists()
+                result = Newshoppinglist.get_myshopping_lists(owner)
                 return render_template('dashboard.html', datas=result,
                                        items=shoppingitems, data=message, owner=owner)
         return render_template('dashboard.html')
